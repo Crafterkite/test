@@ -558,10 +558,10 @@ export default function DocumentEditor() {
         </div>
 
         {/* Right: actions */}
-<div className="flex items-center gap-2 flex-shrink-0">
+<div className="flex items-center gap-1.5 flex-shrink-0">
 
   {/* Collaborators */}
-  <div className="flex items-center -space-x-2">
+  <div className="flex items-center -space-x-2 mr-2">
     {MOCK_COLLABORATORS.slice(0, 3).map((c) => (
       <div
         key={c.id}
@@ -576,47 +576,50 @@ export default function DocumentEditor() {
     ))}
 
     <button
-      className="h-7 w-7 rounded-full border border-border bg-muted text-[11px] text-muted-foreground hover:bg-accent"
+      className="h-7 w-7 rounded-full border border-border bg-muted text-muted-foreground hover:bg-accent transition"
       title="Add collaborator"
     >
       +
     </button>
   </div>
 
-  {/* Find / Replace */}
+  {/* Divider */}
+  <div className="h-5 w-px bg-border mx-1" />
+
+  {/* Find */}
   <button
-    onClick={() => window.find?.('')} // basic browser find
-    className="flex items-center gap-1.5 rounded-md px-2 py-1 text-[12px] text-muted-foreground hover:bg-accent"
+    onClick={() => window.find?.('')}
+    className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent transition"
+    title="Find"
   >
     <Search className="h-4 w-4" />
-    Find
   </button>
 
   {/* Version History */}
   <button
     onClick={() => alert('Open version history')}
-    className="flex items-center gap-1.5 rounded-md px-2 py-1 text-[12px] text-muted-foreground hover:bg-accent"
+    className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent transition"
+    title="Version history"
   >
     <History className="h-4 w-4" />
-    History
   </button>
 
   {/* Info */}
   <button
     onClick={() => alert('Open document info')}
-    className="flex items-center gap-1.5 rounded-md px-2 py-1 text-[12px] text-muted-foreground hover:bg-accent"
+    className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent transition"
+    title="Document info"
   >
     <Info className="h-4 w-4" />
-    Info
   </button>
 
   {/* Share */}
   <button
     onClick={() => setShowShare(true)}
-    className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[12px] font-medium bg-primary text-primary-foreground hover:opacity-90"
+    className="h-8 w-8 flex items-center justify-center rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
+    title="Share"
   >
     <Share2 className="h-4 w-4" />
-    Share
   </button>
 
 </div>
