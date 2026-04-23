@@ -50,32 +50,138 @@ interface Task {
 }
 
 const initialTasks: Task[] = [
-  { 
-    id: 't1', title: 'Finalize Q4 Campaign Assets', status: 'in-progress', priority: 'high', 
-    owner: 'Jessica Wong', assignee: 'Sarah Chen', dueDate: '2026-04-28', 
-    labels: ['Design', 'Marketing'], isStarred: true,
+  {
+    id: 't1',
+    title: 'Finalize Q4 Campaign Assets',
+    status: 'in-progress',
+    priority: 'high',
+    owner: 'Jessica Wong',
+    assignee: 'Sarah Chen',
+    dueDate: '2026-04-28',
+    labels: ['Design', 'Marketing'],
+    isStarred: true,
     description: 'Complete final assets for social, web, and print. Include variations and source files.',
     comments: [
       { id: 'c1', user: 'Jessica Wong', text: 'Make sure to include the wide banner format!', timestamp: '2 hours ago' }
     ],
     metrics: { attachments: 4, subtasks: { completed: 2, total: 5 } }
   },
-  { 
-    id: 't2', title: 'Review Brand Guidelines v2', status: 'review', priority: 'medium', 
-    owner: 'Alex Foster', assignee: 'Marcus Rivera', dueDate: '2026-04-25', 
-    labels: ['Brand', 'Internal'], isStarred: false,
+  {
+    id: 't2',
+    title: 'Review Brand Guidelines v2',
+    status: 'review',
+    priority: 'medium',
+    owner: 'Alex Foster',
+    assignee: 'Marcus Rivera',
+    dueDate: '2026-04-25',
+    labels: ['Brand', 'Internal'],
+    isStarred: false,
     description: 'Check consistency across all assets and update color usage section.',
     comments: [],
     metrics: { attachments: 1, subtasks: { completed: 4, total: 4 } }
   },
-  { 
-    id: 't3', title: 'Update Onboarding Flow', status: 'todo', priority: 'high', 
-    owner: 'Sarah Chen', assignee: 'Alex Foster', dueDate: '2026-05-02', 
-    labels: ['Product', 'UX'], isStarred: true,
+  {
+    id: 't3',
+    title: 'Update Onboarding Flow',
+    status: 'todo',
+    priority: 'high',
+    owner: 'Sarah Chen',
+    assignee: 'Alex Foster',
+    dueDate: '2026-05-02',
+    labels: ['Product', 'UX'],
+    isStarred: true,
     description: 'Redesign the first 3 steps of the user onboarding to reduce drop-off.',
     comments: [],
     metrics: { attachments: 0, subtasks: { completed: 0, total: 3 } }
   },
+  {
+    id: 't4',
+    title: 'Design Social Media Carousel for Spring Drop',
+    status: 'in-progress',
+    priority: 'high',
+    owner: 'Marcus Rivera',
+    assignee: 'Aria Johnson',
+    dueDate: '2026-04-27',
+    labels: ['Design', 'Social'],
+    isStarred: true,
+    description: 'Create 8-slide carousel for Instagram and LinkedIn. Must match new brand colors.',
+    comments: [
+      { id: 'c2', user: 'Aria Johnson', text: 'Can we make the typography bolder on slide 3?', timestamp: '1 hour ago' }
+    ],
+    metrics: { attachments: 3, subtasks: { completed: 3, total: 6 } }
+  },
+  {
+    id: 't5',
+    title: 'Prepare Q2 Creative Budget Report',
+    status: 'todo',
+    priority: 'medium',
+    owner: 'Jessica Wong',
+    assignee: 'Sarah Chen',
+    dueDate: '2026-05-10',
+    labels: ['Finance', 'Report'],
+    isStarred: false,
+    description: 'Compile spend vs actuals and forecast for remaining campaigns.',
+    comments: [],
+    metrics: { attachments: 2, subtasks: { completed: 0, total: 4 } }
+  },
+  {
+    id: 't6',
+    title: 'Shoot Product Lifestyle Photos',
+    status: 'review',
+    priority: 'high',
+    owner: 'Alex Foster',
+    assignee: 'Marcus Rivera',
+    dueDate: '2026-04-26',
+    labels: ['Photography', 'Product'],
+    isStarred: true,
+    description: 'Coordinate with photographer for 12 lifestyle shots of the new collection.',
+    comments: [],
+    metrics: { attachments: 8, subtasks: { completed: 5, total: 7 } }
+  },
+  {
+    id: 't7',
+    title: 'Update Website Hero Section',
+    status: 'done',
+    priority: 'medium',
+    owner: 'Sarah Chen',
+    assignee: 'Aria Johnson',
+    dueDate: '2026-04-22',
+    labels: ['Web', 'Design'],
+    isStarred: false,
+    description: 'Refresh hero banner with new campaign visuals and copy.',
+    comments: [],
+    metrics: { attachments: 1, subtasks: { completed: 3, total: 3 } }
+  },
+  {
+    id: 't8',
+    title: 'Research Competitor Packaging Trends',
+    status: 'todo',
+    priority: 'low',
+    owner: 'Marcus Rivera',
+    assignee: 'Jessica Wong',
+    dueDate: '2026-05-15',
+    labels: ['Research', 'Packaging'],
+    isStarred: false,
+    description: 'Compile trends from 8 direct competitors and present findings.',
+    comments: [],
+    metrics: { attachments: 0, subtasks: { completed: 0, total: 2 } }
+  },
+  {
+    id: 't9',
+    title: 'Create Email Newsletter Template',
+    status: 'in-progress',
+    priority: 'medium',
+    owner: 'Aria Johnson',
+    assignee: 'Sarah Chen',
+    dueDate: '2026-04-29',
+    labels: ['Email', 'Marketing'],
+    isStarred: true,
+    description: 'Build responsive template for monthly client updates.',
+    comments: [
+      { id: 'c3', user: 'Sarah Chen', text: 'Please use the new accent color #3b82f6', timestamp: 'Yesterday' }
+    ],
+    metrics: { attachments: 2, subtasks: { completed: 1, total: 4 } }
+  }
 ];
 
 const TEMPLATES = [
