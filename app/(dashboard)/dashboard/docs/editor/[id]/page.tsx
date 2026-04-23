@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { useEditor, EditorContent } from '@tiptap/react';
-import { BubbleMenu } from '@tiptap/react/menus';
+import { BubbleMenu } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Underline from '@tiptap/extension-underline';
@@ -474,7 +474,7 @@ export default function DocumentEditor() {
 
   // Close export on outside click
   useEffect(() => {
-    const h = (e: globalThis.MouseEvent) => {
+    const h = (e: any) => {
       if (exportRef.current && !exportRef.current.contains(e.target as Node)) setShowExport(false);
     };
     document.addEventListener('mousedown', h);
