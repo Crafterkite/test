@@ -383,10 +383,7 @@ export default function DocsToolbar({
         </div>
       </div>
 
-      {/* MENUBAR */}
-      <DocsMenubar editor={editor} />
-
-      {/* TOOLBAR */}
+          {/* TOOLBAR */}
       <div className="flex flex-wrap items-center gap-1 px-3 py-2 border-t">
         {actions.map((action) => (
           <ToolbarButton key={action.id} action={action} editor={editor} />
