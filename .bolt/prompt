@@ -1,0 +1,30 @@
+# Crafterkite — Creative Operations OS
+Premium multi-tenant SaaS (Design Pickle + Notion + HubSpot hybrid) for creative agencies.
+
+## Stack
+- Frontend: Next.js 14+ App Router, TypeScript, Tailwind, shadcn/ui, TanStack Query, Zustand
+- Backend: NestJS, Prisma, PostgreSQL
+- Icons: Lucide React only. IDs: CUID2.
+
+## Design
+- Dark mode default, elegant light mode support
+- shadcn/ui + Tailwind only — no other component libs
+- Typography: **Inter** (headings) + **Geist Mono** (code/data) — import via `next/font/google`
+- Premium feel: thoughtful spacing, type hierarchy, subtle shadows, micro-interactions
+- Never generic or cookie-cutter
+
+## Rules
+- `"use client"` required on any file using hooks
+- No hydration errors (no mismatched server/client class or style attrs)
+- Every DB query scoped to `org_id` (strict multi-tenancy)
+- Keep changes minimal and focused unless told otherwise
+- Code must be clean, maintainable, production-ready
+
+## Current State
+- Multi-tenancy enforced via middleware
+- Auth partially set up (login bypassed)
+- Sidebar: fixed 240px + DashboardHeader
+- Request model: status flow + priorityOrder implemented
+- Build incrementally from here
+
+Deliver beautiful, polished, production-quality results every time.

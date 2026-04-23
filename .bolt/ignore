@@ -1,0 +1,8 @@
+components/ui/*
+hooks/use-toast.ts
+node_modules
+.next
+dist
+*.log
+backend/dist
+frontend/.next

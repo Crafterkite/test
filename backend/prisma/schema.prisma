@@ -1,0 +1,181 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum MembershipRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum RequestType {
+  DESIGN
+  MOTION
+  COPY
+  STRATEGY
+  DEVELOPMENT
+}
+
+enum RequestStatus {
+  DRAFT
+  SUBMITTED
+  ACTIVE
+  IN_PROGRESS
+  IN_REVISION
+  COMPLETED
+  ARCHIVED
+}
+
+enum TurnaroundTier {
+  STANDARD
+  RUSH
+  PRIORITY
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  avatarUrl    String?
+  status       UserStatus @default(ACTIVE)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  memberships      Membership[]
+  refreshTokens    RefreshToken[]
+  createdRequests  Request[]      @relation("RequestCreator")
+  assignedRequests Request[]      @relation("RequestAssignee")
+
+  @@map("users")
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  logoUrl   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  workspaces  Workspace[]
+  memberships Membership[]
+  roles       Role[]
+  requests    Request[]
+
+  @@map("organizations")
+}
+
+model Workspace {
+  id          String   @id @default(cuid())
+  orgId       String
+  name        String
+  slug        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  requests     Request[]
+
+  @@unique([orgId, slug])
+  @@map("workspaces")
+}
+
+model Membership {
+  id        String         @id @default(cuid())
+  orgId     String
+  userId    String
+  role      MembershipRole @default(MEMBER)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([orgId, userId])
+  @@map("memberships")
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  orgId       String
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  permissions  Permission[]
+
+  @@unique([orgId, name])
+  @@map("roles")
+}
+
+model Permission {
+  id        String   @id @default(cuid())
+  orgId     String
+  roleId    String
+  action    String
+  subject   String
+  createdAt DateTime @default(now())
+
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@map("permissions")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+model Request {
+  id             String         @id @default(cuid())
+  orgId          String
+  workspaceId    String
+  title          String
+  description    String?
+  type           RequestType
+  status         RequestStatus  @default(DRAFT)
+  priorityOrder  Int            @default(1000)
+  turnaroundTier TurnaroundTier @default(STANDARD)
+  briefFormData  Json?
+  dueDate        DateTime?
+  creatorId      String
+  assigneeId     String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  workspace    Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  creator      User         @relation("RequestCreator", fields: [creatorId], references: [id])
+  assignee     User?        @relation("RequestAssignee", fields: [assigneeId], references: [id])
+
+  @@index([orgId])
+  @@index([workspaceId])
+  @@index([orgId, workspaceId])
+  @@index([status])
+  @@index([priorityOrder])
+  @@map("requests")
+}
