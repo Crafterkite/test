@@ -68,10 +68,10 @@ const INITIAL_CONTENT = `
 
 <p class="lead">
 Your workspace for structured thinking, fast drafting, and beautifully organized documents.
-Built for creative teams who move with intention.
+Built for creative teams who move with intention.<br>
 </p>
 
-<h2>Getting Started</h2>
+<h2>Getting Started</h2><br>
 <p>
 Use the toolbar above to format your document, or type <code>/</code> anywhere to open the command menu.
 Every action is designed to keep you in flow.
@@ -296,6 +296,29 @@ function Ruler() {
             );
           })}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function VerticalRuler() {
+  const marks = Array.from({ length: 12 }, (_, i) => i); // inches
+
+  return (
+    <div className="absolute left-0 top-0 bottom-0 w-10 border-r border-border bg-muted/20 select-none">
+      <div className="relative h-full">
+        {marks.map((m, i) => (
+          <div
+            key={m}
+            className="absolute left-0 flex items-center"
+            style={{ top: `${(i / (marks.length - 1)) * 100}%` }}
+          >
+            <span className="text-[8px] text-muted-foreground/50 ml-1">
+              {m}"
+            </span>
+            <div className="ml-1 w-2 h-px bg-border/60" />
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -659,16 +682,25 @@ export default function DocumentEditor() {
       {/* {editor && <SelectionBubble editor={editor} />} */}
 
       {/* 6. Editor canvas */}
-      <div className="flex-1 bg-muted/20 p-6">
-        <div
-          className="mx-auto shadow-2xl bg-card border border-border rounded-sm"
-          style={{ width: `${zoom}%`, maxWidth: '860px', minWidth: '480px' }}
-        >
-          <div className="px-16 py-14 min-h-[1056px]" onClick={() => editor?.commands.focus()}>
-            <EditorContent editor={editor} />
-          </div>
-        </div>
+      <div className="flex-1 flex overflow-hidden bg-muted/20">
+  {/* Vertical ruler */}
+  <VerticalRuler />
+
+  {/* Scrollable canvas */}
+  <div className="flex-1 overflow-auto p-6">
+    <div
+      className="mx-auto shadow-2xl bg-card border border-border rounded-sm"
+      style={{ width: `${zoom}%`, maxWidth: '860px', minWidth: '480px' }}
+    >
+      <div
+        className="px-16 py-14 min-h-[1056px]"
+        onClick={() => editor?.commands.focus()}
+      >
+        <EditorContent editor={editor} />
       </div>
+    </div>
+  </div>
+</div>
 
       {/* 7. Status bar */}
       <div className="sticky bottom-0 z-40 flex h-10 flex-shrink-0 items-center justify-between border-t border-border bg-card/95 backdrop-blur px-4 text-xs">
