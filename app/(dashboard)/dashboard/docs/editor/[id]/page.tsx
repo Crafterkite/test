@@ -571,24 +571,27 @@ export default function DocumentEditor() {
       {/* Ruler */}
       <Ruler />
 
-      {/* Selection Bubble */}
+           {/* 5. Selection bubble */}
       {/* {editor && <SelectionBubble editor={editor} />} */}
 
-      {/* Editor Area */}
+      {/* 6. Editor canvas */}
       <div className="flex-1 overflow-auto bg-muted/20 p-6">
-        <div className="mx-auto shadow-2xl bg-card border border-border rounded-sm" style={{ width: `${zoom}%`, maxWidth: '860px', minWidth: '480px' }}>
+        <div
+          className="mx-auto shadow-2xl bg-card border border-border rounded-sm"
+          style={{ width: `${zoom}%`, maxWidth: '860px', minWidth: '480px' }}
+        >
           <div className="px-16 py-14 min-h-[1056px]" onClick={() => editor?.commands.focus()}>
             <EditorContent editor={editor} />
           </div>
         </div>
       </div>
 
-      {/* Status Bar */}
+      {/* 7. Status bar */}
       <div className="flex h-8 flex-shrink-0 items-center justify-between border-t border-border bg-card px-4">
         {/* your status bar content */}
       </div>
 
-      {/* Share Modal */}
+      {/* Share modal */}
       {showShare && <ShareModal title={title} onClose={() => setShowShare(false)} />}
     </div>
   );
