@@ -108,9 +108,9 @@ export function DashboardHeader() {
         </div>
       </div>
 
-            {/* Right: Actions */}
+                  {/* Right: Actions */}
       <div className="flex items-center gap-2">
-        {/* Quick Actions (kept your beautiful version) */}
+        {/* Quick Actions */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus:outline-none">
