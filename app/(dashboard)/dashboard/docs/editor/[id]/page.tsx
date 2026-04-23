@@ -659,7 +659,7 @@ export default function DocumentEditor() {
       {/* {editor && <SelectionBubble editor={editor} />} */}
 
       {/* 6. Editor canvas */}
-      <div className="flex-1 overflow-auto bg-muted/20 p-6">
+      <div className="flex-1 bg-muted/20 p-6">
         <div
           className="mx-auto shadow-2xl bg-card border border-border rounded-sm"
           style={{ width: `${zoom}%`, maxWidth: '860px', minWidth: '480px' }}
