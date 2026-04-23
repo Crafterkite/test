@@ -1,0 +1,1 @@
+export type DocType = 'docs' | 'sheets' | 'slides' | string;
