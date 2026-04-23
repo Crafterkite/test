@@ -29,7 +29,7 @@ import {
   Printer, Save, History, Sparkles, PenLine,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import DocsToolbar, { DocsMenubar } from '@/components/docs/docstoolbar';
+import DocsToolbar, { DocsMenubar } from '@/components/docs/DocsToolbar';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
