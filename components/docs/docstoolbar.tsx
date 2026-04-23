@@ -422,5 +422,7 @@ export default function DocsToolbar({
         ))}
       </div>
     </div>
-  );
+    );
 }
+
+export { DocsMenubar };
