@@ -19,8 +19,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <DashboardHeader />
 
           <main className="flex-1 overflow-y-auto">
-            {isDocs ? (
-              children
+            {isEditor ? (
+              children 
             ) : (
               <div className="mx-auto max-w-7xl px-6 py-8">
                 {children}
