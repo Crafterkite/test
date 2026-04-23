@@ -289,7 +289,7 @@ function Ruler() {
           paddingRight: 'calc(50% - 430px)',
         }}
       >
-        <div className="relative w-full border-b border-border/40 h-3">
+        <div className="relative w-full border-b border-border/40 h-2">
           
           {marks.map((m, i) => (
             <div
@@ -297,10 +297,10 @@ function Ruler() {
               className="absolute flex flex-col items-center"
               style={{ left: `${(i / (marks.length - 1)) * 100}%` }}
             >
-              <span className="text-[8px] text-muted-foreground/50 leading-none mb-0.5">
+              <span className="text-[7px] text-muted-foreground/50 leading-none mb-0.5">
                 {m}"
               </span>
-              <div className="w-px h-1.5 bg-border/60" />
+              <div className="w-px h-1 bg-border/60" />
             </div>
           ))}
 
@@ -309,7 +309,7 @@ function Ruler() {
             return (
               <div
                 key={i}
-                className="absolute bottom-0 w-px h-1 bg-border/30"
+                className="absolute bottom-0 w-px h-0.5 bg-border/30"
                 style={{
                   left: `${(i / ((marks.length - 1) * 4)) * 100}%`,
                 }}
