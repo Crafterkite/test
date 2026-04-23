@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Plus, Search, Calendar as CalendarIcon, List, Grid3X3, Clock, Table as TableIcon, GripVertical, X, Check } from 'lucide-react';
+import { Plus, Search, Calendar as CalendarIcon, List, Grid3X3, Clock, Table as TableIcon, GripVertical, X, Check, User, Tag } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 type TaskStatus = 'todo' | 'in-progress' | 'review' | 'done';
 type TaskPriority = 'low' | 'medium' | 'high';
@@ -22,15 +23,31 @@ interface Task {
   assignee?: string;
   dueDate?: string;
   labels?: string[];
+  description?: string;
 }
 
 const initialTasks: Task[] = [
-  { id: 't1', title: 'Finalize Q4 Campaign Assets', status: 'in-progress', priority: 'high', assignee: 'Sarah Chen', dueDate: '2026-04-28', labels: ['campaign'] },
-  { id: 't2', title: 'Review Brand Guidelines v2', status: 'review', priority: 'medium', assignee: 'Marcus Rivera', dueDate: '2026-04-25', labels: ['brand'] },
-  { id: 't3', title: 'Update Client Contract Template', status: 'todo', priority: 'low', dueDate: '2026-05-05', labels: ['legal'] },
-  { id: 't4', title: 'Prepare Pitch Deck for Bloom Studio', status: 'done', priority: 'high', assignee: 'Aria Johnson', dueDate: '2026-04-20', labels: ['pitch'] },
-  { id: 't5', title: 'Create Social Media Assets', status: 'todo', priority: 'medium', assignee: 'Sarah Chen', dueDate: '2026-04-30' },
-  { id: 't6', title: 'Client Feedback Review Meeting', status: 'in-progress', priority: 'high', dueDate: '2026-04-24' },
+  { 
+    id: 't1', 
+    title: 'Finalize Q4 Campaign Assets', 
+    status: 'in-progress', 
+    priority: 'high', 
+    assignee: 'Sarah Chen', 
+    dueDate: '2026-04-28', 
+    labels: ['campaign'],
+    description: 'Complete final assets for social, web, and print. Include variations and source files.'
+  },
+  { 
+    id: 't2', 
+    title: 'Review Brand Guidelines v2', 
+    status: 'review', 
+    priority: 'medium', 
+    assignee: 'Marcus Rivera', 
+    dueDate: '2026-04-25', 
+    labels: ['brand'],
+    description: 'Check consistency across all assets and update color usage section.'
+  },
+  // ... add more as needed
 ];
 
 export default function TasksPage() {
@@ -39,7 +56,10 @@ export default function TasksPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('board');
   const [statusFilter, setStatusFilter] = useState<TaskStatus | 'all'>('all');
 
-  // New Task Modal
+  // Task Detail State
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
+  // New Task Modal State
   const [showNewTaskModal, setShowNewTaskModal] = useState(false);
   const [newTask, setNewTask] = useState({
     title: '',
@@ -47,6 +67,7 @@ export default function TasksPage() {
     priority: 'medium' as TaskPriority,
     assignee: '',
     dueDate: '',
+    description: '',
   });
 
   const filteredTasks = tasks.filter(task => {
@@ -79,13 +100,17 @@ export default function TasksPage() {
       priority: newTask.priority,
       assignee: newTask.assignee || undefined,
       dueDate: newTask.dueDate || undefined,
+      description: newTask.description || undefined,
     };
 
     setTasks([task, ...tasks]);
     setShowNewTaskModal(false);
+    setNewTask({ title: '', status: 'todo', priority: 'medium', assignee: '', dueDate: '', description: '' });
+  };
 
-    // Reset form
-    setNewTask({ title: '', status: 'todo', priority: 'medium', assignee: '', dueDate: '' });
+  const updateTask = (updatedTask: Task) => {
+    setTasks(prev => prev.map(t => t.id === updatedTask.id ? updatedTask : t));
+    setSelectedTask(updatedTask);
   };
 
   const getPriorityColor = (priority: TaskPriority) => {
@@ -102,7 +127,7 @@ export default function TasksPage() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 relative">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
@@ -165,7 +190,7 @@ export default function TasksPage() {
 
       {/* ====================== VIEWS ====================== */}
 
-      {/* Board View */}
+      {/* Board View with Drag & Drop */}
       {viewMode === 'board' && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {columns.map((col) => {
@@ -181,12 +206,14 @@ export default function TasksPage() {
                   <h3 className="font-medium capitalize">{col.label}</h3>
                   <span className="text-xs bg-muted px-2 py-0.5 rounded-full">{columnTasks.length}</span>
                 </div>
+
                 <div className="space-y-3 min-h-[500px]">
                   {columnTasks.map(task => (
                     <Card
                       key={task.id}
                       draggable
                       onDragStart={(e) => handleDragStart(e, task.id)}
+                      onClick={() => setSelectedTask(task)}
                       className="cursor-grab active:cursor-grabbing hover:shadow-md transition-all"
                     >
                       <CardContent className="p-4">
@@ -215,7 +242,11 @@ export default function TasksPage() {
       {viewMode === 'list' && (
         <div className="space-y-3">
           {filteredTasks.map(task => (
-            <Card key={task.id} className="hover:shadow-sm transition-all">
+            <Card 
+              key={task.id} 
+              className="hover:shadow-sm transition-all cursor-pointer"
+              onClick={() => setSelectedTask(task)}
+            >
               <CardContent className="p-5 flex items-center gap-4">
                 <div className="flex-1">
                   <div className="font-medium">{task.title}</div>
@@ -234,18 +265,103 @@ export default function TasksPage() {
         </div>
       )}
 
-      {/* Timeline, Calendar, Table Views (placeholders for now) */}
+      {/* Other views (Timeline, Calendar, Table) - kept as placeholders */}
       {(viewMode === 'timeline' || viewMode === 'calendar' || viewMode === 'table') && (
         <Card>
-          <CardContent className="p-12 text-center text-muted-foreground">
-            {viewMode === 'timeline' && 'Timeline / Gantt View (to be implemented)'}
-            {viewMode === 'calendar' && 'Calendar View (monthly grid)'}
-            {viewMode === 'table' && 'Table View (sortable spreadsheet)'}
+          <CardContent className="p-12 text-center text-muted-foreground py-16">
+            {viewMode.charAt(0).toUpperCase() + viewMode.slice(1)} View – Coming soon
           </CardContent>
         </Card>
       )}
 
-      {/* ==================== NEW TASK MODAL ==================== */}
+      {/* ==================== TASK DETAIL SIDEBAR ==================== */}
+      {selectedTask && (
+        <div className="fixed inset-y-0 right-0 w-96 bg-card border-l border-border shadow-2xl z-50 overflow-auto">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-semibold">Task Details</h2>
+              <button onClick={() => setSelectedTask(null)} className="text-muted-foreground hover:text-foreground">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <Input
+              value={selectedTask.title}
+              onChange={(e) => updateTask({ ...selectedTask, title: e.target.value })}
+              className="text-lg font-semibold mb-4"
+            />
+
+            <div className="space-y-6">
+              <div>
+                <Label>Status</Label>
+                <Select 
+                  value={selectedTask.status} 
+                  onValueChange={(v) => updateTask({ ...selectedTask, status: v as TaskStatus })}
+                >
+                  <SelectTrigger className="mt-1.5">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="todo">To Do</SelectItem>
+                    <SelectItem value="in-progress">In Progress</SelectItem>
+                    <SelectItem value="review">Review</SelectItem>
+                    <SelectItem value="done">Done</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label>Priority</Label>
+                <Select 
+                  value={selectedTask.priority} 
+                  onValueChange={(v) => updateTask({ ...selectedTask, priority: v as TaskPriority })}
+                >
+                  <SelectTrigger className="mt-1.5">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="high">High</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="low">Low</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label>Assignee</Label>
+                <Input
+                  value={selectedTask.assignee || ''}
+                  onChange={(e) => updateTask({ ...selectedTask, assignee: e.target.value })}
+                  placeholder="Assign to..."
+                  className="mt-1.5"
+                />
+              </div>
+
+              <div>
+                <Label>Due Date</Label>
+                <Input
+                  type="date"
+                  value={selectedTask.dueDate || ''}
+                  onChange={(e) => updateTask({ ...selectedTask, dueDate: e.target.value })}
+                  className="mt-1.5"
+                />
+              </div>
+
+              <div>
+                <Label>Description</Label>
+                <Textarea
+                  value={selectedTask.description || ''}
+                  onChange={(e) => updateTask({ ...selectedTask, description: e.target.value })}
+                  placeholder="Add more details..."
+                  className="mt-1.5 min-h-[120px]"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* New Task Modal */}
       {showNewTaskModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
           <div className="w-full max-w-lg rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
@@ -316,6 +432,16 @@ export default function TasksPage() {
                   value={newTask.dueDate}
                   onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })}
                   className="mt-1.5"
+                />
+              </div>
+
+              <div>
+                <Label>Description</Label>
+                <Textarea
+                  value={newTask.description}
+                  onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
+                  placeholder="Add more details about this task..."
+                  className="mt-1.5 min-h-[100px]"
                 />
               </div>
             </div>
