@@ -550,7 +550,7 @@ export default function DocumentEditor() {
   const words = editor?.storage.characterCount?.words() ?? 0;
   const chars = editor?.storage.characterCount?.characters() ?? 0;
 
-       return (
+     return (
     <div className="flex h-screen flex-col bg-background overflow-hidden">
       {/* 1. Title bar */}
       <div className="flex h-12 flex-shrink-0 items-center justify-between border-b border-border bg-card px-4 gap-4 sticky top-0 z-50">
@@ -576,62 +576,103 @@ export default function DocumentEditor() {
 
         {/* Center: save status */}
         <div className="flex items-center gap-1.5 flex-shrink-0">
-          {saveStatus === 'saved' && (
-            <div className="flex items-center gap-1.5 text-[11.5px] text-emerald-400">
-              <Check className="h-3.5 w-3.5" /> Saved
-            </div>
-          )}
-          {saveStatus === 'saving' && (
-            <div className="flex items-center gap-1.5 text-[11.5px] text-muted-foreground">
-              <div className="h-3 w-3 rounded-full border-2 border-muted-foreground border-t-transparent animate-spin" />
-              Saving…
-            </div>
-          )}
-          {saveStatus === 'unsaved' && (
-            <div className="text-[11.5px] text-amber-400">Unsaved changes</div>
-          )}
+          {saveStatus === 'saved' && <div className="flex items-center gap-1.5 text-[11.5px] text-emerald-400"><Check className="h-3.5 w-3.5" /> Saved</div>}
+          {saveStatus === 'saving' && <div className="flex items-center gap-1.5 text-[11.5px] text-muted-foreground"><div className="h-3 w-3 rounded-full border-2 border-muted-foreground border-t-transparent animate-spin" /> Saving…</div>}
+          {saveStatus === 'unsaved' && <div className="text-[11.5px] text-amber-400">Unsaved changes</div>}
         </div>
 
         {/* Right: actions */}
-        <div className="flex items-center gap-2 flex-shrink-0">
-          {/* Your existing right-side code (collaborators, history, print, export, share) */}
-          {/* ... keep your current right side exactly as you have it ... */}
-        </div>
+<div className="flex items-center gap-1.5 flex-shrink-0">
+
+  {/* Collaborators */}
+  <div className="flex items-center -space-x-2 mr-2">
+    {MOCK_COLLABORATORS.slice(0, 3).map((c) => (
+      <div
+        key={c.id}
+        className={cn(
+          "h-7 w-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-background",
+          c.color
+        )}
+        title={c.name}
+      >
+        {c.initials}
+      </div>
+    ))}
+
+    <button
+      className="h-7 w-7 rounded-full border border-border bg-muted text-muted-foreground hover:bg-accent transition"
+      title="Add collaborator"
+    >
+      +
+    </button>
+  </div>
+
+  {/* Divider */}
+  <div className="h-5 w-px bg-border mx-1" />
+
+  {/* Find */}
+  <button
+    onClick={() => window.find?.('')}
+    className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent transition"
+    title="Find"
+  >
+    <Search className="h-4 w-4" />
+  </button>
+
+  {/* Version History */}
+  <button
+    onClick={() => alert('Open version history')}
+    className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent transition"
+    title="Version history"
+  >
+    <History className="h-4 w-4" />
+  </button>
+
+  {/* Info */}
+  <button
+    onClick={() => alert('Open document info')}
+    className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent transition"
+    title="Document info"
+  >
+    <Info className="h-4 w-4" />
+  </button>
+
+  {/* Share */}
+  <button
+    onClick={() => setShowShare(true)}
+    className="h-8 w-8 flex items-center justify-center rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
+    title="Share"
+  >
+    <Share2 className="h-4 w-4" />
+  </button>
+
+</div>
       </div>
 
-      {/* 2. Menu Bar */}
-      <DocsMenubar editor={editor} type="document" />
-
-      {/* 3. Formatting Toolbar */}
+      {/* Formatting Toolbar */}
       <FormattingToolbar editor={editor} />
 
-      {/* 4. Ruler */}
+      {/* Ruler */}
       <Ruler />
 
-      {/* 5. Selection bubble */}
-      {editor && <SelectionBubble editor={editor} />}
+                {/* 5. Selection bubble */}
+      {/* {editor && <SelectionBubble editor={editor} />} */}
 
       {/* 6. Editor canvas */}
-      <div className="flex-1 overflow-auto bg-muted/20 p-8">
+      <div className="flex-1 overflow-auto bg-muted/20 p-6">
         <div
           className="mx-auto shadow-2xl bg-card border border-border rounded-sm"
-          style={{
-            width: 'calc(100% - 80px)',
-            maxWidth: '860px',
-            minWidth: '480px',
-            height: 'calc(100vh - 188px)',
-            margin: '20px auto',
-          }}
+          style={{ width: `${zoom}%`, maxWidth: '860px', minWidth: '480px' }}
         >
-          <div className="px-16 py-14 min-h-full" onClick={() => editor?.commands.focus()}>
+          <div className="px-16 py-14 min-h-[1056px]" onClick={() => editor?.commands.focus()}>
             <EditorContent editor={editor} />
           </div>
         </div>
       </div>
 
       {/* 7. Status bar */}
-      <div className="flex h-8 flex-shrink-0 items-center justify-between border-t border-border bg-card px-4 text-xs text-muted-foreground">
-        <div className="flex items-center gap-4">
+      <div className="flex h-8 flex-shrink-0 items-center justify-between border-t border-border bg-card px-4 text-xs">
+        <div className="flex items-center gap-4 text-muted-foreground">
           <span>
             {editor ? editor.getText().trim().split(/\s+/).filter(Boolean).length : 0} words
           </span>
@@ -640,11 +681,17 @@ export default function DocumentEditor() {
           </span>
           <span>
             {editor
-              ? Math.max(1, Math.ceil(editor.getText().trim().split(/\s+/).filter(Boolean).length / 500))
-              : 1} pages
+              ? Math.max(
+                  1,
+                  Math.ceil(
+                    editor.getText().trim().split(/\s+/).filter(Boolean).length / 500
+                  )
+                )
+              : 1}{' '}
+            pages
           </span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 text-muted-foreground">
           <span>English (US)</span>
           <span>Spellcheck: On</span>
           <select
