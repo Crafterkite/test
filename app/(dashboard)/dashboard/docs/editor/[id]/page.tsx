@@ -279,8 +279,8 @@ function FormattingToolbar({ editor }: { editor: any }) {
 function Ruler() {
   const marks = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   return (
-   <div className="sticky top-[calc(3rem+56px)] z-30 h-6 border-b border-border bg-muted/20 flex-shrink-0 relative overflow-hidden select-none">
-      <div className="absolute inset-x-0 bottom-0 flex items-end" style={{ paddingLeft: 'calc(50% - 400px)', paddingRight: 'calc(50% - 400px)' }}>
+   <div className="sticky top-[calc(3rem+56px)] z-30 h-6 border-b border-border bg-muted/card flex-shrink-0 relative overflow-hidden select-none">
+      <div className="absolute inset-x-0 bottom-0 flex items-end" style={{ paddingLeft: 'calc(50% - 430px / 2)', paddingRight: 'calc(50% - 430px / 2)' }}>
         <div className="relative w-full border-b border-border/40 h-3">
           {marks.map((m, i) => (
             <div key={m} className="absolute flex flex-col items-center" style={{ left: `${(i / (marks.length - 1)) * 100}%` }}>
@@ -305,7 +305,7 @@ function VerticalRuler() {
   const marks = Array.from({ length: 12 }, (_, i) => i); // inches
 
   return (
-    <div className="sticky top-[84px] w-5 flex-shrink-0 border-r border-border bg-muted/20 relative">
+    <div className="sticky top-[84px] w-5 flex-shrink-0 border-r border-border bg-card relative">
       <div className="relative h-full">
         {marks.map((m, i) => (
           <div
