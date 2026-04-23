@@ -84,9 +84,8 @@ export function DashboardHeader() {
   const userInitials = user ? getInitials(`${user.firstName} ${user.lastName}`) : 'CK';
   const avatarColor = user ? stringToColor(user.id || 'ck') : '#2563eb';
 
-  return (
+    return (
     <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-border bg-card/95 backdrop-blur-md px-6">
-
       {/* Left: Page Title */}
       <h1 className="text-xl font-bold tracking-tight text-foreground">
         {pageTitle}
@@ -108,7 +107,7 @@ export function DashboardHeader() {
         </div>
       </div>
 
-                  {/* Right: Actions */}
+      {/* Right: Actions */}
       <div className="flex items-center gap-2">
         {/* Quick Actions */}
         <DropdownMenu>
@@ -215,3 +214,6 @@ export function DashboardHeader() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+    </header>
+  );
+}
