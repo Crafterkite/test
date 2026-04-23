@@ -108,10 +108,9 @@ export function DashboardHeader() {
         </div>
       </div>
 
-      {/* Right: Actions */}
-      <div className="flex items-center gap-1">
-
-        {/* Quick Actions — hamburger + menu */}
+            {/* Right: Actions */}
+      <div className="flex items-center gap-2">
+        {/* Quick Actions (kept your beautiful version) */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus:outline-none">
@@ -169,6 +168,13 @@ export function DashboardHeader() {
         {/* Theme Toggle */}
         <ThemeToggle />
 
+        {/* Settings Icon */}
+        <Link href="/dashboard/settings">
+          <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus:outline-none">
+            <Settings className="h-4 w-4" />
+          </button>
+        </Link>
+
         {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -208,8 +214,4 @@ export function DashboardHeader() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-
       </div>
-    </header>
-  );
-}
