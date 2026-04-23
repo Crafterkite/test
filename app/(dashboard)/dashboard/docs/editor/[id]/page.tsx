@@ -279,7 +279,7 @@ function FormattingToolbar({ editor }: { editor: any }) {
 function Ruler() {
   const marks = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   return (
-    <div className="sticky top-[54px] z-30 h-6 border-b border-border bg-muted/20 flex-shrink-0 relative overflow-hidden select-none">
+   <div className="sticky top-[calc(3rem+56px)] z-30 h-6 border-b border-border bg-muted/20 flex-shrink-0 relative overflow-hidden select-none">
       <div className="absolute inset-x-0 bottom-0 flex items-end" style={{ paddingLeft: 'calc(50% - 400px)', paddingRight: 'calc(50% - 400px)' }}>
         <div className="relative w-full border-b border-border/40 h-3">
           {marks.map((m, i) => (
