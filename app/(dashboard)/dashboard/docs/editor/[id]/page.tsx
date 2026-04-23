@@ -305,7 +305,7 @@ function VerticalRuler() {
   const marks = Array.from({ length: 12 }, (_, i) => i); // inches
 
   return (
-    <div className="sticky top-[84px] w-10 flex-shrink-0 border-r border-border bg-muted/20 relative">
+    <div className="sticky top-[84px] w-5 flex-shrink-0 border-r border-border bg-muted/20 relative">
       <div className="relative h-full">
         {marks.map((m, i) => (
           <div
