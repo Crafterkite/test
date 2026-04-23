@@ -474,7 +474,7 @@ export default function DocumentEditor() {
 
   // Close export on outside click
   useEffect(() => {
-    const h = (e: MouseEvent) => {
+    const h = (e: any) => {
       if (exportRef.current && !exportRef.current.contains(e.target as Node)) setShowExport(false);
     };
     document.addEventListener('mousedown', h);
