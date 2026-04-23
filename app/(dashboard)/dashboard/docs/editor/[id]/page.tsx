@@ -280,15 +280,17 @@ function Ruler() {
   const marks = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
-    <div className="sticky top-[calc(3rem+56px)] z-30 h-4 border-b border-border bg-background flex-shrink-0">
+    <div className="sticky top-[calc(3rem+56px)] z-30 h-4 border-b border-border bg-background">
       
-      <div className="mx-auto w-full max-w-[860px] px-16">
-        <div className="relative border-b border-border/40 h-2">
+      {/* SAME container logic as your document */}
+      <div className="mx-auto w-full max-w-[860px] px-16 h-full">
+        
+        <div className="relative h-full">
           
           {marks.map((m, i) => (
             <div
               key={m}
-              className="absolute flex flex-col items-center"
+              className="absolute bottom-0 flex flex-col items-center"
               style={{ left: `${(i / (marks.length - 1)) * 100}%` }}
             >
               <span className="text-[7px] text-muted-foreground/50 leading-none mb-0.5">
@@ -298,6 +300,7 @@ function Ruler() {
             </div>
           ))}
 
+          {/* Minor ticks */}
           {Array.from({ length: marks.length * 4 - 3 }, (_, i) => {
             if (i % 4 === 0) return null;
             return (
