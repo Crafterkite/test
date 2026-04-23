@@ -570,7 +570,7 @@ export default function DocumentEditor() {
       {/* Ruler */}
       <Ruler />
 
-           {/* 5. Selection bubble */}
+                {/* 5. Selection bubble */}
       {/* {editor && <SelectionBubble editor={editor} />} */}
 
       {/* 6. Editor canvas */}
@@ -586,48 +586,45 @@ export default function DocumentEditor() {
       </div>
 
       {/* 7. Status bar */}
-<div className="flex h-8 flex-shrink-0 items-center justify-between border-t border-border bg-card px-4 text-xs">
-  
-  {/* LEFT */}
-  <div className="flex items-center gap-4 text-muted-foreground">
-    <span>
-      {editor ? editor.getText().trim().split(/\s+/).filter(Boolean).length : 0} words
-    </span>
+      <div className="flex h-8 flex-shrink-0 items-center justify-between border-t border-border bg-card px-4 text-xs">
+        <div className="flex items-center gap-4 text-muted-foreground">
+          <span>
+            {editor ? editor.getText().trim().split(/\s+/).filter(Boolean).length : 0} words
+          </span>
+          <span>
+            {editor ? editor.getText().length : 0} characters
+          </span>
+          <span>
+            {editor
+              ? Math.max(
+                  1,
+                  Math.ceil(
+                    editor.getText().trim().split(/\s+/).filter(Boolean).length / 500
+                  )
+                )
+              : 1}{' '}
+            pages
+          </span>
+        </div>
+        <div className="flex items-center gap-4 text-muted-foreground">
+          <span>English (US)</span>
+          <span>Spellcheck: On</span>
+          <select
+            value={zoom}
+            onChange={(e) => setZoom(Number(e.target.value) as ZoomLevel)}
+            className="bg-transparent outline-none"
+          >
+            <option value={50}>50%</option>
+            <option value={75}>75%</option>
+            <option value={100}>100%</option>
+            <option value={125}>125%</option>
+            <option value={150}>150%</option>
+          </select>
+        </div>
+      </div>
 
-    <span>
-      {editor ? editor.getText().length : 0} characters
-    </span>
-
-    <span>
-      {editor
-        ? Math.max(
-            1,
-            Math.ceil(
-              editor.getText().trim().split(/\s+/).filter(Boolean).length / 500
-            )
-          )
-        : 1}{' '}
-      pages
-    </span>
-  </div>
-
-  {/* RIGHT */}
-  <div className="flex items-center gap-4 text-muted-foreground">
-    <span>English (US)</span>
-    <span>Spellcheck: On</span>
-
-    {/* Zoom */}
-    <select
-      value={zoom}
-      onChange={(e) => setZoom(Number(e.target.value))}
-      className="bg-transparent outline-none"
-    >
-      <option value={50}>50%</option>
-      <option value={75}>75%</option>
-      <option value={100}>100%</option>
-      <option value={125}>125%</option>
-      <option value={150}>150%</option>
-    </select>
-  </div>
-
-</div>
+      {/* Share modal */}
+      {showShare && <ShareModal title={title} onClose={() => setShowShare(false)} />}
+    </div>
+  );
+}
