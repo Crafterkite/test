@@ -278,21 +278,42 @@ function FormattingToolbar({ editor }: { editor: any }) {
 
 function Ruler() {
   const marks = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
   return (
-   <div className="sticky top-[calc(3rem+56px)] z-30 h-6 border-b border-border bg-muted/card flex-shrink-0 relative overflow-hidden select-none">
-      <div className="absolute inset-x-0 bottom-0 flex items-end" style={{ paddingLeft: 'calc(50% - 430px / 2)', paddingRight: 'calc(50% - 430px / 2)' }}>
+    <div className="sticky top-[calc(3rem+56px)] z-30 h-6 border-b border-border bg-background flex-shrink-0 relative overflow-hidden select-none">
+      
+      <div
+        className="absolute inset-x-0 bottom-0 flex items-end"
+        style={{
+          paddingLeft: 'calc(50% - 215px)',
+          paddingRight: 'calc(50% - 215px)',
+        }}
+      >
         <div className="relative w-full border-b border-border/40 h-3">
+          
           {marks.map((m, i) => (
-            <div key={m} className="absolute flex flex-col items-center" style={{ left: `${(i / (marks.length - 1)) * 100}%` }}>
-              <span className="text-[8px] text-muted-foreground/50 leading-none mb-0.5">{m}"</span>
+            <div
+              key={m}
+              className="absolute flex flex-col items-center"
+              style={{ left: `${(i / (marks.length - 1)) * 100}%` }}
+            >
+              <span className="text-[8px] text-muted-foreground/50 leading-none mb-0.5">
+                {m}"
+              </span>
               <div className="w-px h-1.5 bg-border/60" />
             </div>
           ))}
-          {/* Minor ticks */}
+
           {Array.from({ length: marks.length * 4 - 3 }, (_, i) => {
             if (i % 4 === 0) return null;
             return (
-              <div key={i} className="absolute bottom-0 w-px h-1 bg-border/30" style={{ left: `${(i / ((marks.length - 1) * 4)) * 100}%` }} />
+              <div
+                key={i}
+                className="absolute bottom-0 w-px h-1 bg-border/30"
+                style={{
+                  left: `${(i / ((marks.length - 1) * 4)) * 100}%`,
+                }}
+              />
             );
           })}
         </div>
