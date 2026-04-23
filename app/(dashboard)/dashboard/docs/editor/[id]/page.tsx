@@ -658,13 +658,19 @@ export default function DocumentEditor() {
                 {/* 5. Selection bubble */}
       {/* {editor && <SelectionBubble editor={editor} />} */}
 
-      {/* 6. Editor canvas */}
-      <div className="flex-1 overflow-auto bg-muted/20 p-6">
-        <div
+           {/* 6. Editor canvas - Controlled height + width */}
+      <div className="flex-1 overflow-auto bg-muted/20">
+        <div 
           className="mx-auto shadow-2xl bg-card border border-border rounded-sm"
-          style={{ width: `${zoom}%`, maxWidth: '860px', minWidth: '480px' }}
+          style={{
+            width: 'calc(100% - 80px)',     // ← Controls width (you can change 80px)
+            maxWidth: '860px',
+            minWidth: '480px',
+            height: 'calc(100vh - 188px)',  // ← Controls height (title + menus + ruler + status)
+            margin: '20px auto',            // small breathing room top/bottom
+          }}
         >
-          <div className="px-16 py-14 min-h-[1056px]" onClick={() => editor?.commands.focus()}>
+          <div className="px-12 py-12 min-h-full" onClick={() => editor?.commands.focus()}>
             <EditorContent editor={editor} />
           </div>
         </div>
