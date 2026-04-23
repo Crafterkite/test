@@ -453,7 +453,7 @@ export default function DocumentEditor() {
   const params        = useParams();
   const documentId    = params.id as string;
 
-  const [title, setTitle]           = useState('Bloom Studio — Client Brief Q2');
+  const [title, setTitle]           = useState('Untitled Document');
   const [isStarred, setIsStarred]   = useState(false);
   const [showShare, setShowShare]   = useState(false);
   const [showExport, setShowExport] = useState(false);
