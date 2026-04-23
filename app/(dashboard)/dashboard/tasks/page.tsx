@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Plus, Search, Calendar, User, Tag, GripVertical } from 'lucide-react';
+import { Plus, Search, Calendar as CalendarIcon, List, Grid3X3, Clock, Table as TableIcon } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 type TaskStatus = 'todo' | 'in-progress' | 'review' | 'done';
 type TaskPriority = 'low' | 'medium' | 'high';
+type ViewMode = 'list' | 'board' | 'timeline' | 'calendar' | 'table';
 
 interface Task {
   id: string;
@@ -33,7 +34,7 @@ const initialTasks: Task[] = [
 export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState<'list' | 'board'>('board');
+  const [viewMode, setViewMode] = useState<ViewMode>('board');
   const [statusFilter, setStatusFilter] = useState<TaskStatus | 'all'>('all');
 
   const filteredTasks = tasks.filter(task => {
@@ -42,38 +43,11 @@ export default function TasksPage() {
     return matchesSearch && matchesStatus;
   });
 
-  // Drag & Drop Handlers
-  const handleDragStart = (e: React.DragEvent, taskId: string) => {
-    e.dataTransfer.setData('text/plain', taskId);
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e: React.DragEvent, newStatus: TaskStatus) => {
-    e.preventDefault();
-    const taskId = e.dataTransfer.getData('text/plain');
-
-    setTasks(prevTasks =>
-      prevTasks.map(task =>
-        task.id === taskId ? { ...task, status: newStatus } : task
-      )
-    );
-  };
-
   const getPriorityColor = (priority: TaskPriority) => {
     if (priority === 'high') return 'bg-red-500/10 text-red-400 border-red-500/20';
     if (priority === 'medium') return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
     return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
   };
-
-  const columns: { status: TaskStatus; label: string; color: string }[] = [
-    { status: 'todo', label: 'To Do', color: 'border-gray-500' },
-    { status: 'in-progress', label: 'In Progress', color: 'border-blue-500' },
-    { status: 'review', label: 'Review', color: 'border-amber-500' },
-    { status: 'done', label: 'Done', color: 'border-emerald-500' },
-  ];
 
   return (
     <div className="space-y-8">
@@ -101,20 +75,29 @@ export default function TasksPage() {
           />
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          {/* View Switcher */}
           <div className="flex rounded-lg border border-border bg-card p-1">
-            <button
-              onClick={() => setViewMode('list')}
-              className={`rounded-md px-4 py-1.5 text-sm font-medium transition ${viewMode === 'list' ? 'bg-accent text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
-            >
-              List
-            </button>
-            <button
-              onClick={() => setViewMode('board')}
-              className={`rounded-md px-4 py-1.5 text-sm font-medium transition ${viewMode === 'board' ? 'bg-accent text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
-            >
-              Board
-            </button>
+            {[
+              { mode: 'list', label: 'List', icon: List },
+              { mode: 'board', label: 'Board', icon: Grid3X3 },
+              { mode: 'timeline', label: 'Timeline', icon: Clock },
+              { mode: 'calendar', label: 'Calendar', icon: CalendarIcon },
+              { mode: 'table', label: 'Table', icon: TableIcon },
+            ].map(({ mode, label, icon: Icon }) => (
+              <button
+                key={mode}
+                onClick={() => setViewMode(mode as ViewMode)}
+                className={`flex items-center gap-2 rounded-md px-4 py-1.5 text-sm font-medium transition-all ${
+                  viewMode === mode 
+                    ? 'bg-accent text-foreground shadow-sm' 
+                    : 'text-muted-foreground hover:bg-muted'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {label}
+              </button>
+            ))}
           </div>
 
           <select
@@ -131,76 +114,26 @@ export default function TasksPage() {
         </div>
       </div>
 
-      {/* Board View with Drag & Drop */}
+      {/* Views */}
       {viewMode === 'board' && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {columns.map((column) => {
-            const columnTasks = filteredTasks.filter(t => t.status === column.status);
-
+          {['todo', 'in-progress', 'review', 'done'].map((status) => {
+            const columnTasks = filteredTasks.filter(t => t.status === status);
             return (
-              <div
-                key={column.status}
-                className="flex flex-col"
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, column.status)}
-              >
-                <div className={`flex items-center justify-between mb-4 px-2 py-1 rounded-lg border ${column.color}`}>
-                  <h3 className="font-medium text-sm capitalize">{column.label}</h3>
-                  <span className="text-xs text-muted-foreground bg-card px-2 py-0.5 rounded">
-                    {columnTasks.length}
-                  </span>
+              <div key={status} className="flex flex-col">
+                <div className="flex items-center justify-between mb-4 px-3 py-2 bg-card border border-border rounded-lg">
+                  <h3 className="font-medium capitalize">{status.replace('-', ' ')}</h3>
+                  <span className="text-xs bg-muted px-2 py-0.5 rounded">{columnTasks.length}</span>
                 </div>
-
-                <div className="space-y-3 min-h-[400px]">
-                  {columnTasks.map((task) => (
-                    <Card
-                      key={task.id}
-                      draggable
-                      onDragStart={(e) => handleDragStart(e, task.id)}
-                      className="cursor-grab active:cursor-grabbing hover:shadow-md transition-all group"
-                    >
-                      <CardContent className="p-4">
-                        <div className="flex items-start gap-3">
-                          <GripVertical className="h-4 w-4 text-muted-foreground mt-1 opacity-40 group-hover:opacity-100" />
-                          <div className="flex-1 min-w-0">
-                            <p className="font-medium text-sm leading-snug">{task.title}</p>
-
-                            <div className="flex items-center gap-2 mt-3">
-                              {task.assignee && (
-                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                                  <User className="h-3 w-3" />
-                                  {task.assignee}
-                                </div>
-                              )}
-                              {task.dueDate && (
-                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                                  <Calendar className="h-3 w-3" />
-                                  {task.dueDate}
-                                </div>
-                              )}
-                            </div>
-
-                            <div className="flex gap-2 mt-3">
-                              <Badge className={getPriorityColor(task.priority)} variant="outline">
-                                {task.priority}
-                              </Badge>
-                              {task.labels?.map(label => (
-                                <Badge key={label} variant="secondary" className="text-xs">
-                                  {label}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
+                <div className="space-y-3 min-h-[500px]">
+                  {columnTasks.map(task => (
+                    <Card key={task.id} className="p-4 cursor-grab active:cursor-grabbing">
+                      <div className="font-medium text-sm">{task.title}</div>
+                      <div className="mt-3 flex gap-2">
+                        <Badge className={getPriorityColor(task.priority)}>{task.priority}</Badge>
+                      </div>
                     </Card>
                   ))}
-
-                  {columnTasks.length === 0 && (
-                    <div className="text-center py-12 text-muted-foreground text-sm border border-dashed border-border rounded-xl">
-                      No tasks in this column
-                    </div>
-                  )}
                 </div>
               </div>
             );
@@ -208,32 +141,38 @@ export default function TasksPage() {
         </div>
       )}
 
-      {/* List View */}
       {viewMode === 'list' && (
         <div className="space-y-3">
-          {filteredTasks.map((task) => (
-            <Card key={task.id} className="hover:shadow-sm transition-all cursor-pointer">
-              <CardContent className="p-5 flex items-center gap-4">
-                <div className="flex-1">
-                  <div className="font-medium">{task.title}</div>
-                  <div className="text-xs text-muted-foreground mt-1 flex items-center gap-3">
-                    {task.dueDate && <span>Due {task.dueDate}</span>}
-                    {task.assignee && <span>Assigned to {task.assignee}</span>}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <Badge className={getPriorityColor(task.priority)}>
-                    {task.priority}
-                  </Badge>
-                  <Badge variant="outline" className="capitalize">
-                    {task.status.replace('-', ' ')}
-                  </Badge>
-                </div>
-              </CardContent>
+          {filteredTasks.map(task => (
+            <Card key={task.id} className="p-5">
+              <div className="font-medium">{task.title}</div>
             </Card>
           ))}
         </div>
+      )}
+
+      {viewMode === 'timeline' && (
+        <Card>
+          <CardContent className="p-8 text-center text-muted-foreground">
+            Timeline / Gantt View (coming soon - horizontal timeline with dates)
+          </CardContent>
+        </Card>
+      )}
+
+      {viewMode === 'calendar' && (
+        <Card>
+          <CardContent className="p-8 text-center text-muted-foreground">
+            Calendar View (monthly grid with tasks)
+          </CardContent>
+        </Card>
+      )}
+
+      {viewMode === 'table' && (
+        <Card>
+          <CardContent className="p-8 text-center text-muted-foreground">
+            Table View (sortable spreadsheet style)
+          </CardContent>
+        </Card>
       )}
     </div>
   );
