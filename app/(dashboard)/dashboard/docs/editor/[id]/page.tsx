@@ -521,7 +521,6 @@ export default function DocumentEditor() {
       }),
       CodeBlockLowlight.configure({ lowlight }),
     ],
-    content: INITIAL_CONTENT,
     immediatelyRender: false,
     onUpdate: () => setSaveStatus('unsaved'),
     editorProps: {
