@@ -592,3 +592,4 @@ export default function DocumentEditor() {
       {showShare && <ShareModal title={title} onClose={() => setShowShare(false)} />}
     </div>
   );
+}
