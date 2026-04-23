@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Plus, Search, Calendar as CalendarIcon, List, Grid3X3, Clock, Table as TableIcon, GripVertical } from 'lucide-react';
+import { Plus, Search, Calendar as CalendarIcon, List, Grid3X3, Clock, Table as TableIcon, GripVertical, X, Check } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type TaskStatus = 'todo' | 'in-progress' | 'review' | 'done';
 type TaskPriority = 'low' | 'medium' | 'high';
@@ -36,23 +38,22 @@ export default function TasksPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<ViewMode>('board');
   const [statusFilter, setStatusFilter] = useState<TaskStatus | 'all'>('all');
-  const [sortField, setSortField] = useState<'title' | 'dueDate' | 'priority'>('dueDate');
 
-  const filteredTasks = tasks
-    .filter(task => {
-      const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesStatus = statusFilter === 'all' || task.status === statusFilter;
-      return matchesSearch && matchesStatus;
-    })
-    .sort((a, b) => {
-      if (sortField === 'title') return a.title.localeCompare(b.title);
-      if (sortField === 'dueDate') return (a.dueDate || '').localeCompare(b.dueDate || '');
-      if (sortField === 'priority') {
-        const order = { high: 3, medium: 2, low: 1 };
-        return (order[b.priority] || 0) - (order[a.priority] || 0);
-      }
-      return 0;
-    });
+  // New Task Modal
+  const [showNewTaskModal, setShowNewTaskModal] = useState(false);
+  const [newTask, setNewTask] = useState({
+    title: '',
+    status: 'todo' as TaskStatus,
+    priority: 'medium' as TaskPriority,
+    assignee: '',
+    dueDate: '',
+  });
+
+  const filteredTasks = tasks.filter(task => {
+    const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = statusFilter === 'all' || task.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   const handleDragStart = (e: React.DragEvent, taskId: string) => {
     e.dataTransfer.setData('text/plain', taskId);
@@ -66,6 +67,25 @@ export default function TasksPage() {
     setTasks(prev => prev.map(task =>
       task.id === taskId ? { ...task, status: newStatus } : task
     ));
+  };
+
+  const handleCreateTask = () => {
+    if (!newTask.title.trim()) return;
+
+    const task: Task = {
+      id: Date.now().toString(),
+      title: newTask.title,
+      status: newTask.status,
+      priority: newTask.priority,
+      assignee: newTask.assignee || undefined,
+      dueDate: newTask.dueDate || undefined,
+    };
+
+    setTasks([task, ...tasks]);
+    setShowNewTaskModal(false);
+
+    // Reset form
+    setNewTask({ title: '', status: 'todo', priority: 'medium', assignee: '', dueDate: '' });
   };
 
   const getPriorityColor = (priority: TaskPriority) => {
@@ -89,7 +109,7 @@ export default function TasksPage() {
           <h1 className="text-3xl font-semibold tracking-tight">Tasks</h1>
           <p className="text-muted-foreground mt-1">Manage creative deliverables and workflow</p>
         </div>
-        <Button>
+        <Button onClick={() => setShowNewTaskModal(true)}>
           <Plus className="mr-2 h-4 w-4" />
           New Task
         </Button>
@@ -108,7 +128,6 @@ export default function TasksPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* View Switcher */}
           <div className="flex rounded-lg border border-border bg-card p-1">
             {[
               { mode: 'list', label: 'List', icon: List },
@@ -144,9 +163,9 @@ export default function TasksPage() {
         </div>
       </div>
 
-      {/* ==================== VIEWS ==================== */}
+      {/* ====================== VIEWS ====================== */}
 
-      {/* Board View - Drag & Drop */}
+      {/* Board View */}
       {viewMode === 'board' && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {columns.map((col) => {
@@ -162,7 +181,6 @@ export default function TasksPage() {
                   <h3 className="font-medium capitalize">{col.label}</h3>
                   <span className="text-xs bg-muted px-2 py-0.5 rounded-full">{columnTasks.length}</span>
                 </div>
-
                 <div className="space-y-3 min-h-[500px]">
                   {columnTasks.map(task => (
                     <Card
@@ -180,9 +198,6 @@ export default function TasksPage() {
                               <Badge className={getPriorityColor(task.priority)} variant="outline">
                                 {task.priority}
                               </Badge>
-                              {task.labels?.map(l => (
-                                <Badge key={l} variant="secondary" className="text-xs">{l}</Badge>
-                              ))}
                             </div>
                           </div>
                         </div>
@@ -219,57 +234,102 @@ export default function TasksPage() {
         </div>
       )}
 
-      {/* Timeline View */}
-      {viewMode === 'timeline' && (
+      {/* Timeline, Calendar, Table Views (placeholders for now) */}
+      {(viewMode === 'timeline' || viewMode === 'calendar' || viewMode === 'table') && (
         <Card>
-          <CardContent className="p-8">
-            <div className="text-center text-muted-foreground py-12">
-              Timeline View (Horizontal Gantt-style)<br />
-              <span className="text-xs">Due dates visualized on a timeline</span>
+          <CardContent className="p-12 text-center text-muted-foreground">
+            {viewMode === 'timeline' && 'Timeline / Gantt View (to be implemented)'}
+            {viewMode === 'calendar' && 'Calendar View (monthly grid)'}
+            {viewMode === 'table' && 'Table View (sortable spreadsheet)'}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* ==================== NEW TASK MODAL ==================== */}
+      {showNewTaskModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-lg rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between border-b border-border px-6 py-4">
+              <h2 className="text-lg font-semibold">New Task</h2>
+              <button onClick={() => setShowNewTaskModal(false)} className="text-muted-foreground hover:text-foreground">
+                <X className="h-5 w-5" />
+              </button>
             </div>
-          </CardContent>
-        </Card>
-      )}
 
-      {/* Calendar View */}
-      {viewMode === 'calendar' && (
-        <Card>
-          <CardContent className="p-8 text-center text-muted-foreground py-16">
-            Calendar View (Monthly grid with tasks)
-          </CardContent>
-        </Card>
-      )}
+            <div className="p-6 space-y-6">
+              <div>
+                <Label htmlFor="title">Task Title</Label>
+                <Input
+                  id="title"
+                  value={newTask.title}
+                  onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+                  placeholder="e.g. Finalize logo variations"
+                  className="mt-1.5"
+                />
+              </div>
 
-      {/* Table View */}
-      {viewMode === 'table' && (
-        <Card>
-          <CardContent className="p-0">
-            <table className="w-full text-sm">
-              <thead className="border-b border-border bg-muted/50">
-                <tr>
-                  <th className="text-left p-4 font-medium">Task</th>
-                  <th className="text-left p-4 font-medium">Status</th>
-                  <th className="text-left p-4 font-medium">Priority</th>
-                  <th className="text-left p-4 font-medium">Assignee</th>
-                  <th className="text-left p-4 font-medium">Due Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredTasks.map(task => (
-                  <tr key={task.id} className="border-b border-border hover:bg-muted/50">
-                    <td className="p-4 font-medium">{task.title}</td>
-                    <td className="p-4 capitalize">{task.status.replace('-', ' ')}</td>
-                    <td className="p-4">
-                      <Badge className={getPriorityColor(task.priority)}>{task.priority}</Badge>
-                    </td>
-                    <td className="p-4">{task.assignee || '—'}</td>
-                    <td className="p-4 text-muted-foreground">{task.dueDate || '—'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </CardContent>
-        </Card>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label>Status</Label>
+                  <Select value={newTask.status} onValueChange={(v) => setNewTask({ ...newTask, status: v as TaskStatus })}>
+                    <SelectTrigger className="mt-1.5">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="todo">To Do</SelectItem>
+                      <SelectItem value="in-progress">In Progress</SelectItem>
+                      <SelectItem value="review">Review</SelectItem>
+                      <SelectItem value="done">Done</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label>Priority</Label>
+                  <Select value={newTask.priority} onValueChange={(v) => setNewTask({ ...newTask, priority: v as TaskPriority })}>
+                    <SelectTrigger className="mt-1.5">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="low">Low</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div>
+                <Label>Assignee</Label>
+                <Input
+                  value={newTask.assignee}
+                  onChange={(e) => setNewTask({ ...newTask, assignee: e.target.value })}
+                  placeholder="Team member name"
+                  className="mt-1.5"
+                />
+              </div>
+
+              <div>
+                <Label>Due Date</Label>
+                <Input
+                  type="date"
+                  value={newTask.dueDate}
+                  onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })}
+                  className="mt-1.5"
+                />
+              </div>
+            </div>
+
+            <div className="border-t border-border px-6 py-4 flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setShowNewTaskModal(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleCreateTask} disabled={!newTask.title.trim()}>
+                Create Task
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
