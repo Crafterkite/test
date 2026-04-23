@@ -563,9 +563,6 @@ export default function DocumentEditor() {
         </div>
       </div>
 
-      {/* Menu Bar */}
-      <DocsMenubar editor={editor} type="document" />
-
       {/* Formatting Toolbar */}
       <FormattingToolbar editor={editor} />
 
