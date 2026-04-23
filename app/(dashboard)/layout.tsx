@@ -8,7 +8,7 @@ import { AuthGuard } from '@/components/auth/auth-guard';
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const pathname = usePathname();
-  const isDocs = pathname.startsWith('/dashboard/docs');
+  const isEditor = pathname.startsWith('/dashboard/docs/editor');
 
   return (
     <AuthGuard>
