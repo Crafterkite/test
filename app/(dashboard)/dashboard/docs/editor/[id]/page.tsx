@@ -551,7 +551,7 @@ export default function DocumentEditor() {
   const chars = editor?.storage.characterCount?.characters() ?? 0;
 
      return (
-    <div className="flex h-screen flex-col bg-background overflow-hidden">
+    <div className="flex min-h-screen flex-col bg-background">
       {/* 1. Title bar */}
       <div className="flex h-12 flex-shrink-0 items-center justify-between border-b border-border bg-card px-4 gap-4 sticky top-0 z-50">
         {/* Left: breadcrumb + title */}
