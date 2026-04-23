@@ -572,7 +572,7 @@ export default function DocumentEditor() {
       <Ruler />
 
       {/* Selection Bubble */}
-      {editor && <SelectionBubble editor={editor} />}
+      {/* {editor && <SelectionBubble editor={editor} />} */}
 
       {/* Editor Area */}
       <div className="flex-1 overflow-auto bg-muted/20 p-6">
