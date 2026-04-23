@@ -212,7 +212,7 @@ function getActions(type: DocType): Action[] {
 /* MENUBAR BUILDER */
 /* -------------------------------------------------- */
 
-function DocsMenubar({ editor }: { editor: Editor | null; type: DocType }) {
+function DocsMenubar({ editor }: { editor: Editor | null }) {
   // Added the missing `return` statement below.
   return (
     <Menubar className="border-none bg-transparent px-2 h-10">
@@ -413,7 +413,7 @@ export default function DocsToolbar({
       </div>
 
       {/* MENUBAR */}
-      <DocsMenubar editor={editor} type={type} />
+<DocsMenubar editor={editor} />
 
       {/* TOOLBAR */}
       <div className="flex flex-wrap items-center gap-1 px-3 py-2 border-t">
