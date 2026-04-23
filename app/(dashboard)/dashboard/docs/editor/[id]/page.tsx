@@ -63,46 +63,6 @@ const EXPORT_FORMATS = [
   { label: 'HTML',            ext: 'html', icon: '🌐' },
 ];
 
-const INITIAL_CONTENT = `
-<h1>Welcome to Crafterkite Docs</h1>
-
-<p class="lead">
-Your workspace for structured thinking, fast drafting, and beautifully organized documents.
-Built for creative teams who move with intention.<br>
-</p>
-
-<h2>Getting Started</h2><br>
-<p>
-Use the toolbar above to format your document, or type <code>/</code> anywhere to open the command menu.
-Every action is designed to keep you in flow.
-</p>
-
-<ul>
-  <li>Clean, modern formatting with headings, lists, and inline styling</li>
-  <li>Real‑time collaboration with presence, cursors, and shared awareness</li>
-  <li>Export to PDF, DOCX, Markdown, and more — all from one place</li>
-</ul>
-
-<h2>Pro Tips</h2>
-<p>
-Structure your ideas with clear hierarchy. Use <strong>Headings</strong> to define sections, 
-<em>inline styles</em> to emphasize key points, and <code>code blocks</code> for technical notes.
-</p>
-
-<blockquote>
-  <p>
-    “Great documents aren’t written — they’re designed.  
-    Start with clarity, build with intention, and let your ideas breathe.”
-  </p>
-</blockquote>
-
-<h2>Start Writing</h2>
-<p>
-Your canvas is ready. Begin drafting below and watch your document evolve in real time.
-</p>
-
-`;
-
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function ToolbarBtn({
