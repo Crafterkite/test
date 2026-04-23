@@ -21,6 +21,7 @@ import {
   MessageSquare,
   Bot,
   FileText,
+  CheckSquare,
 } from 'lucide-react';
 import { cn, getInitials, stringToColor } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
@@ -47,6 +48,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { label: 'Overview', href: '/dashboard', icon: LayoutDashboard, exact: true },
   { label: 'Requests', href: '/dashboard/requests', icon: FileStack },
+  { label: 'Tasks', href: '/dashboard/tasks', icon: CheckSquare },
   { label: 'Brand Profiles', href: '/dashboard/brand-profiles', icon: Palette },
   { label: 'Team', href: '/dashboard/team', icon: Users },
   { label: 'Workspaces', href: '/dashboard/workspaces', icon: Layers },
