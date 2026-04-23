@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import DocsToolbar from '@/components/docs/DocsToolbar';
+import DocsStatusBar from '@/components/docs/DocsStatusBar';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
