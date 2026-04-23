@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import DocsMenubar from './DocsMenubar';
+import DocsMenubar from '@/components/docs/DocsMenubar';
 import ToolbarButton from './ToolbarButton';
 
 import {
