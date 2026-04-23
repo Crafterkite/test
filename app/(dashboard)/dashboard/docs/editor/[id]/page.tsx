@@ -671,7 +671,7 @@ export default function DocumentEditor() {
       </div>
 
       {/* 7. Status bar */}
-      <div className="flex h-8 flex-shrink-0 items-center justify-between border-t border-border bg-card px-4 text-xs">
+      <div className="sticky bottom-0 z-40 flex h-10 flex-shrink-0 items-center justify-between border-t border-border bg-card/95 backdrop-blur px-4 text-xs">
         <div className="flex items-center gap-4 text-muted-foreground">
           <span>
             {editor ? editor.getText().trim().split(/\s+/).filter(Boolean).length : 0} words
