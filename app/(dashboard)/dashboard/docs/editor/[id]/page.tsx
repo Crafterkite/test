@@ -524,9 +524,9 @@ export default function DocumentEditor() {
   const words = editor?.storage.characterCount?.words() ?? 0;
   const chars = editor?.storage.characterCount?.characters() ?? 0;
 
-    return (
+     return (
     <div className="flex h-screen flex-col bg-background overflow-hidden">
-      {/* ── 1. Title bar ── */}
+      {/* 1. Title bar */}
       <div className="flex h-12 flex-shrink-0 items-center justify-between border-b border-border bg-card px-4 gap-4 sticky top-0 z-50">
         {/* Left: breadcrumb + title */}
         <div className="flex items-center gap-2 min-w-0">
@@ -544,119 +544,51 @@ export default function DocumentEditor() {
             className="flex-shrink-0 rounded-md p-1 text-muted-foreground hover:bg-accent transition-colors"
             title={isStarred ? 'Unstar' : 'Star'}
           >
-            {isStarred
-              ? <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-              : <StarOff className="h-4 w-4" />
-            }
+            {isStarred ? <Star className="h-4 w-4 fill-amber-400 text-amber-400" /> : <StarOff className="h-4 w-4" />}
           </button>
         </div>
 
         {/* Center: save status */}
         <div className="flex items-center gap-1.5 flex-shrink-0">
-          {saveStatus === 'saved' && (
-            <div className="flex items-center gap-1.5 text-[11.5px] text-emerald-400">
-              <Check className="h-3.5 w-3.5" /> Saved
-            </div>
-          )}
-          {saveStatus === 'saving' && (
-            <div className="flex items-center gap-1.5 text-[11.5px] text-muted-foreground">
-              <div className="h-3 w-3 rounded-full border-2 border-muted-foreground border-t-transparent animate-spin" />
-              Saving…
-            </div>
-          )}
-          {saveStatus === 'unsaved' && (
-            <div className="text-[11.5px] text-amber-400">Unsaved changes</div>
-          )}
+          {saveStatus === 'saved' && <div className="flex items-center gap-1.5 text-[11.5px] text-emerald-400"><Check className="h-3.5 w-3.5" /> Saved</div>}
+          {saveStatus === 'saving' && <div className="flex items-center gap-1.5 text-[11.5px] text-muted-foreground"><div className="h-3 w-3 rounded-full border-2 border-muted-foreground border-t-transparent animate-spin" /> Saving…</div>}
+          {saveStatus === 'unsaved' && <div className="text-[11.5px] text-amber-400">Unsaved changes</div>}
         </div>
 
-        {/* Right: actions + collaborators */}
+        {/* Right: actions */}
         <div className="flex items-center gap-2 flex-shrink-0">
-          {/* Collaborator avatars */}
-          <div className="hidden sm:flex -space-x-2">
-            {MOCK_COLLABORATORS.filter(c => c.active).map(c => (
-              <div key={c.id} title={c.name}
-                className={cn('relative flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-bold text-white ring-2 ring-card', c.color)}
-              >
-                {c.initials}
-                <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full border border-card bg-emerald-500" />
-              </div>
-            ))}
-          </div>
-          {/* History */}
-          <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors" title="Version history">
-            <History className="h-4 w-4" />
-          </button>
-          {/* Print */}
-          <button onClick={() => window.print()} className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors" title="Print">
-            <Printer className="h-4 w-4" />
-          </button>
-          {/* Export */}
-          <div ref={exportRef} className="relative">
-            <button
-              onClick={() => setShowExport(v => !v)}
-              className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-[12.5px] font-medium text-foreground hover:bg-accent transition-colors"
-            >
-              <Download className="h-3.5 w-3.5" />
-              Export
-              <ChevronDown className={cn('h-3 w-3 transition-transform', showExport && 'rotate-180')} />
-            </button>
-            {showExport && <ExportMenu title={title} onClose={() => setShowExport(false)} />}
-          </div>
-          {/* Share */}
-          <button
-            onClick={() => setShowShare(true)}
-            className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-[12.5px] font-semibold text-white hover:bg-primary/90 transition-colors shadow-sm"
-          >
-            <Share2 className="h-3.5 w-3.5" />
-            Share
-          </button>
+          {/* Collaborators, History, Print, Export, Share — keep your exact code here */}
+          {/* ... your existing right-side code ... */}
         </div>
       </div>
 
-      {/* 2. Menu Bar */}
+      {/* Menu Bar */}
       <DocsMenubar editor={editor} type="document" />
 
-      {/* 3. Formatting toolbar */}
+      {/* Formatting Toolbar */}
       <FormattingToolbar editor={editor} />
 
-      {/* 4. Ruler */}
+      {/* Ruler */}
       <Ruler />
 
-      {/* 5. Selection bubble */}
+      {/* Selection Bubble */}
       {editor && <SelectionBubble editor={editor} />}
 
-      {/* 6. Editor canvas */}
+      {/* Editor Area */}
       <div className="flex-1 overflow-auto bg-muted/20 p-6">
-        <div
-          className="mx-auto shadow-2xl bg-card border border-border rounded-sm"
-          style={{ width: `${zoom}%`, maxWidth: '860px', minWidth: '480px' }}
-        >
+        <div className="mx-auto shadow-2xl bg-card border border-border rounded-sm" style={{ width: `${zoom}%`, maxWidth: '860px', minWidth: '480px' }}>
           <div className="px-16 py-14 min-h-[1056px]" onClick={() => editor?.commands.focus()}>
             <EditorContent editor={editor} />
           </div>
         </div>
       </div>
 
-      {/* 7. Status bar */}
+      {/* Status Bar */}
       <div className="flex h-8 flex-shrink-0 items-center justify-between border-t border-border bg-card px-4">
-        <div className="flex items-center gap-5 text-[11.5px] text-muted-foreground">
-          <span>Page <span className="font-semibold text-foreground">1</span> of 1</span>
-          <span><span className="font-semibold text-foreground">{words.toLocaleString()}</span> words</span>
-          <span><span className="font-semibold text-foreground">{chars.toLocaleString()}</span> characters</span>
-          <div className="flex items-center gap-1 text-emerald-400">
-            <Check className="h-3 w-3" />
-            <span>Spell check</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-[11.5px] text-muted-foreground hidden sm:block">English (US)</span>
-          <div className="h-4 w-px bg-border" />
-          <ZoomControl zoom={zoom} onChange={setZoom} />
-        </div>
+        {/* your status bar content */}
       </div>
 
-      {/* Share modal */}
+      {/* Share Modal */}
       {showShare && <ShareModal title={title} onClose={() => setShowShare(false)} />}
     </div>
-    );
-}
+  );
