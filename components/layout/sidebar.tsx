@@ -55,7 +55,6 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Chat', href: '/dashboard/chat', icon: MessageSquare },
   { label: 'AI Agents', href: '/dashboard/agents', icon: Bot },
   { label: 'Docs', href: '/dashboard/docs', icon: FileText },
-  { label: 'Settings', href: '/dashboard/settings', icon: Settings },
 ];
 
 function SidebarContent({ onClose }: { onClose?: () => void }) {
