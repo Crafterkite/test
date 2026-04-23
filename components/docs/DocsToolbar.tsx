@@ -1,9 +1,9 @@
 'use client';
 
+import React from 'react';
 import DocsMenubar from './DocsMenubar';
 import ToolbarButton from './ToolbarButton';
 
-import React from 'react';
 import {
   Bold,
   Italic,
@@ -17,26 +17,13 @@ import {
   Redo,
 } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import {
-  Menubar,
-  MenubarMenu,
-  MenubarTrigger,
-  MenubarContent,
-  MenubarItem,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubTrigger,
-  MenubarSubContent,
-  MenubarCheckboxItem,
-} from '@/components/ui/menubar';
-
 import { Editor } from '@tiptap/react';
 
-/* -------------------------------------------------- */
-/* PLUGIN SYSTEM */
-/* -------------------------------------------------- */
+/* ----------------------------- */
+/* TYPES */
+/* ----------------------------- */
+
+export type DocType = 'docs' | 'sheets' | 'slides' | string;
 
 type Action = {
   id: string;
@@ -45,18 +32,11 @@ type Action = {
   run?: (editor: Editor) => void;
   isActive?: (editor: Editor) => boolean;
   canRun?: (editor: Editor) => boolean;
-  menu?: 'file' | 'edit' | 'view' | 'insert' | 'format' | 'tools' | 'help';
 };
 
-type Plugin = {
-  id: string;
-  supports: DocType[];
-  actions: Action[];
-};
-
-/* -------------------------------------------------- */
+/* ----------------------------- */
 /* SAFE HELPERS */
-/* -------------------------------------------------- */
+/* ----------------------------- */
 
 const safeRun = (editor: Editor | null, fn?: (e: Editor) => void) => {
   if (!editor || !fn) return;
@@ -81,142 +61,101 @@ const safeActive = (editor: Editor | null, fn?: (e: Editor) => boolean) => {
   }
 };
 
-/* -------------------------------------------------- */
-/* CORE PLUGINS */
-/* -------------------------------------------------- */
+/* ----------------------------- */
+/* ACTIONS */
+/* ----------------------------- */
 
-const corePlugins: Plugin[] = [
+const actions: Action[] = [
   {
-    id: 'history',
-    supports: ['docs'],
-    actions: [
-      {
-        id: 'undo',
-        label: 'Undo',
-        icon: <Undo className="h-4 w-4" />,
-        run: (e) => e.chain().focus().undo().run(),
-        canRun: (e) => e.can().undo(),
-        menu: 'edit',
-      },
-      {
-        id: 'redo',
-        label: 'Redo',
-        icon: <Redo className="h-4 w-4" />,
-        run: (e) => e.chain().focus().redo().run(),
-        canRun: (e) => e.can().redo(),
-        menu: 'edit',
-      },
-    ],
+    id: 'undo',
+    label: 'Undo',
+    icon: <Undo className="h-4 w-4" />,
+    run: (e) => e.chain().focus().undo().run(),
+    canRun: (e) => e.can().undo(),
   },
   {
-    id: 'formatting',
-    supports: ['docs'],
-    actions: [
-      {
-        id: 'bold',
-        label: 'Bold',
-        icon: <Bold className="h-4 w-4" />,
-        run: (e) => e.chain().focus().toggleBold().run(),
-        isActive: (e) => e.isActive('bold'),
-        menu: 'format',
-      },
-      {
-        id: 'italic',
-        label: 'Italic',
-        icon: <Italic className="h-4 w-4" />,
-        run: (e) => e.chain().focus().toggleItalic().run(),
-        isActive: (e) => e.isActive('italic'),
-        menu: 'format',
-      },
-      {
-        id: 'strike',
-        label: 'Strikethrough',
-        icon: <Strikethrough className="h-4 w-4" />,
-        run: (e) => e.chain().focus().toggleStrike().run(),
-        isActive: (e) => e.isActive('strike'),
-        menu: 'format',
-      },
-    ],
+    id: 'redo',
+    label: 'Redo',
+    icon: <Redo className="h-4 w-4" />,
+    run: (e) => e.chain().focus().redo().run(),
+    canRun: (e) => e.can().redo(),
   },
   {
-    id: 'lists',
-    supports: ['docs'],
-    actions: [
-      {
-        id: 'bullet',
-        label: 'Bullet List',
-        icon: <List className="h-4 w-4" />,
-        run: (e) => e.chain().focus().toggleBulletList().run(),
-        isActive: (e) => e.isActive('bulletList'),
-        menu: 'format',
-      },
-      {
-        id: 'ordered',
-        label: 'Ordered List',
-        icon: <ListOrdered className="h-4 w-4" />,
-        run: (e) => e.chain().focus().toggleOrderedList().run(),
-        isActive: (e) => e.isActive('orderedList'),
-        menu: 'format',
-      },
-    ],
+    id: 'bold',
+    label: 'Bold',
+    icon: <Bold className="h-4 w-4" />,
+    run: (e) => e.chain().focus().toggleBold().run(),
+    isActive: (e) => e.isActive('bold'),
   },
   {
-    id: 'insert',
-    supports: ['docs'],
-    actions: [
-      {
-        id: 'code',
-        label: 'Code Block',
-        icon: <Code className="h-4 w-4" />,
-        run: (e) => e.chain().focus().toggleCodeBlock().run(),
-        menu: 'insert',
-      },
-      {
-        id: 'link',
-        label: 'Link',
-        icon: <Link className="h-4 w-4" />,
-        run: (e) => {
-          const url = window.prompt('Enter URL');
-          if (url) e.chain().focus().setLink({ href: url }).run();
-        },
-        menu: 'insert',
-      },
-      {
-        id: 'image',
-        label: 'Image',
-        icon: <ImageIcon className="h-4 w-4" />,
-        run: (e) => {
-          const url = window.prompt('Image URL');
-          if (url) e.chain().focus().setImage({ src: url }).run();
-        },
-        menu: 'insert',
-      },
-    ],
+    id: 'italic',
+    label: 'Italic',
+    icon: <Italic className="h-4 w-4" />,
+    run: (e) => e.chain().focus().toggleItalic().run(),
+    isActive: (e) => e.isActive('italic'),
+  },
+  {
+    id: 'strike',
+    label: 'Strikethrough',
+    icon: <Strikethrough className="h-4 w-4" />,
+    run: (e) => e.chain().focus().toggleStrike().run(),
+    isActive: (e) => e.isActive('strike'),
+  },
+  {
+    id: 'bullet',
+    label: 'Bullet List',
+    icon: <List className="h-4 w-4" />,
+    run: (e) => e.chain().focus().toggleBulletList().run(),
+    isActive: (e) => e.isActive('bulletList'),
+  },
+  {
+    id: 'ordered',
+    label: 'Ordered List',
+    icon: <ListOrdered className="h-4 w-4" />,
+    run: (e) => e.chain().focus().toggleOrderedList().run(),
+    isActive: (e) => e.isActive('orderedList'),
+  },
+  {
+    id: 'code',
+    label: 'Code Block',
+    icon: <Code className="h-4 w-4" />,
+    run: (e) => e.chain().focus().toggleCodeBlock().run(),
+  },
+  {
+    id: 'link',
+    label: 'Link',
+    icon: <Link className="h-4 w-4" />,
+    run: (e) => {
+      const url = window.prompt('Enter URL');
+      if (url) e.chain().focus().setLink({ href: url }).run();
+    },
+  },
+  {
+    id: 'image',
+    label: 'Image',
+    icon: <ImageIcon className="h-4 w-4" />,
+    run: (e) => {
+      const url = window.prompt('Image URL');
+      if (url) e.chain().focus().setImage({ src: url }).run();
+    },
   },
 ];
 
-/* -------------------------------------------------- */
-/* PLUGIN RESOLVER */
-/* -------------------------------------------------- */
-
-function getActions(type: DocType): Action[] {
-  return corePlugins
-    .filter((p) => p.supports.includes(type))
-    .flatMap((p) => p.actions);
-}
-
-/* -------------------------------------------------- */
-/* MAIN TOOLBAR */
-/* -------------------------------------------------- */
+/* ----------------------------- */
+/* COMPONENT */
+/* ----------------------------- */
 
 export default function DocsToolbar({
   editor,
   title,
   setTitle,
   type = 'docs',
+}: {
+  editor: Editor | null;
+  title: string;
+  setTitle: (v: string) => void;
+  type?: DocType;
 }) {
-  const actions = getActions(type);
-
   return (
     <div className="sticky top-0 z-50 bg-background/90 backdrop-blur border-b">
       
@@ -233,7 +172,10 @@ export default function DocsToolbar({
         </div>
       </div>
 
-          {/* TOOLBAR */}
+      {/* MENUBAR (PUT THIS BACK) */}
+      <DocsMenubar editor={editor} />
+
+      {/* TOOLBAR */}
       <div className="flex flex-wrap items-center gap-1 px-3 py-2 border-t">
         {actions.map((action) => (
           <ToolbarButton key={action.id} action={action} editor={editor} />
