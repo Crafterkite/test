@@ -280,7 +280,7 @@ function Ruler() {
   const marks = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
-    <div className="sticky top-[calc(3rem+56px)] z-30 h-4 border-b border-border bg-background">
+    <div className="sticky top-0 z-30 h-4 border-b border-border bg-background">
       
       {/* SAME container logic as your document */}
       <div className="mx-auto w-full max-w-[860px] px-16 h-full">
