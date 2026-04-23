@@ -1,5 +1,8 @@
 'use client';
 
+import DocsMenubar from './DocsMenubar';
+import ToolbarButton from './ToolbarButton';
+
 import React from 'react';
 import {
   Bold,
@@ -359,27 +362,6 @@ function DocsMenubar({ editor }: { editor: Editor | null }) {
 }
 
 /* -------------------------------------------------- */
-/* TOOLBAR BUTTON */
-/* -------------------------------------------------- */
-
-function ToolbarButton({ action, editor }: { action: Action; editor: Editor | null }) {
-  const active = safeActive(editor, action.isActive);
-  const disabled = action.canRun ? !safeCan(editor, action.canRun) : !editor;
-
-  return (
-    <Button
-      variant={active ? 'default' : 'ghost'}
-      size="icon"
-      disabled={disabled}
-      onClick={() => safeRun(editor, action.run)}
-      title={action.label}
-    >
-      {action.icon}
-    </Button>
-  );
-}
-
-/* -------------------------------------------------- */
 /* MAIN TOOLBAR */
 /* -------------------------------------------------- */
 
@@ -388,16 +370,12 @@ export default function DocsToolbar({
   title,
   setTitle,
   type = 'docs',
-}: {
-  editor: Editor | null;
-  title: string;
-  setTitle: (v: string) => void;
-  type?: DocType;
 }) {
   const actions = getActions(type);
 
   return (
     <div className="sticky top-0 z-50 bg-background/90 backdrop-blur border-b">
+      
       {/* HEADER */}
       <div className="flex items-center gap-3 px-4 py-2">
         <input
@@ -406,14 +384,13 @@ export default function DocsToolbar({
           className="text-sm font-medium bg-transparent outline-none border-b border-transparent focus:border-border"
           placeholder="Untitled Document"
         />
-
         <div className="text-xs text-muted-foreground">
           {type.toUpperCase()}
         </div>
       </div>
 
       {/* MENUBAR */}
-<DocsMenubar editor={editor} />
+      <DocsMenubar editor={editor} />
 
       {/* TOOLBAR */}
       <div className="flex flex-wrap items-center gap-1 px-3 py-2 border-t">
@@ -422,7 +399,5 @@ export default function DocsToolbar({
         ))}
       </div>
     </div>
-    );
+  );
 }
-
-export { DocsMenubar };
