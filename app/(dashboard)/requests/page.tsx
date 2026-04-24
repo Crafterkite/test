@@ -483,7 +483,7 @@ export default function RequestsPage() {
               <RequestRow
                 key={request.id}
                 request={request}
-                onClick={() => router.push(`/dashboard/requests/${request.id}`)}
+                onClick={() => router.push(`/requests/${request.id}`)}
               />
             ))}
           </div>
