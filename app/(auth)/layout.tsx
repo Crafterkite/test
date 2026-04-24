@@ -4,28 +4,7 @@ import { Providers } from "./providers";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
-// Google Font - Inter (used everywhere)
-import { Inter } from "next/font/google";
-
-// Local Geist Mono for code
-import localFont from "next/font/local";
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const geistMono = localFont({
-  src: [
-    { path: "/fonts/geist-mono/GeistMono-Regular.woff2", weight: "400", style: "normal" },
-    { path: "/fonts/geist-mono/GeistMono-Medium.woff2", weight: "500", style: "normal" },
-    { path: "/fonts/geist-mono/GeistMono-SemiBold.woff2", weight: "600", style: "normal" },
-    { path: "/fonts/geist-mono/GeistMono-Bold.woff2", weight: "700", style: "normal" },
-  ],
-  variable: "--font-mono",
-});
+import { inter, geistMono } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -34,7 +13,12 @@ export const metadata: Metadata = {
   },
   description:
     "Crafterkite is a premium multi-tenant Creative Operations OS designed to streamline your creative workflow.",
-  keywords: ["creative operations", "design management", "brand assets", "creative workflow"],
+  keywords: [
+    "creative operations",
+    "design management",
+    "brand assets",
+    "creative workflow",
+  ],
   authors: [{ name: "Crafterkite" }],
   openGraph: {
     type: "website",
@@ -49,7 +33,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
@@ -60,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
-          enableSystem={true}
+          enableSystem
           disableTransitionOnChange
         >
           <Providers>
