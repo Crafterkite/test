@@ -45,18 +45,6 @@ interface NavItem {
   exact?: boolean;
 }
 
-const [collapsed, setCollapsed] = useState(false);
-
-// persist
-useEffect(() => {
-  const saved = localStorage.getItem('sidebar-collapsed');
-  if (saved) setCollapsed(saved === 'true');
-}, []);
-
-useEffect(() => {
-  localStorage.setItem('sidebar-collapsed', String(collapsed));
-}, [collapsed]);
-
 const NAV_ITEMS: NavItem[] = [
   { label: 'Overview', href: '/dashboard', icon: LayoutDashboard, exact: true },
   { label: 'Requests', href: '/dashboard/requests', icon: FileStack },
