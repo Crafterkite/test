@@ -181,21 +181,18 @@ export function DashboardHeader() {
        {/* Settings Menu */}
 <DropdownMenu>
   <DropdownMenuTrigger asChild>
-    <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus:outline-none">
+    <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors">
       <Settings className="h-4 w-4" />
     </button>
   </DropdownMenuTrigger>
 
-  <DropdownMenuContent
-    align="end"
-    className="w-64 p-1.5"
-    sideOffset={8}
-  >
-    {/* ================= SYSTEM ================= */}
-    <DropdownMenuLabel className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+  <DropdownMenuContent align="end" className="w-64 p-1.5" sideOffset={8}>
+    
+    {/* System */}
+    <DropdownMenuLabel className="px-2 py-1.5 text-[10px] uppercase text-muted-foreground font-semibold">
       System
     </DropdownMenuLabel>
-    <DropdownMenuSeparator className="my-1" />
+    <DropdownMenuSeparator />
 
     <DropdownMenuItem asChild>
       <Link href="/dashboard/settings/system" className="flex items-center gap-2">
@@ -204,23 +201,23 @@ export function DashboardHeader() {
       </Link>
     </DropdownMenuItem>
 
-    {/* ================= WORKSPACE ================= */}
-    <DropdownMenuLabel className="mt-2 px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/security" className="flex items-center gap-2">
+        <Shield className="h-3.5 w-3.5" />
+        Security
+      </Link>
+    </DropdownMenuItem>
+
+    {/* Workspace */}
+    <DropdownMenuLabel className="mt-2 px-2 py-1.5 text-[10px] uppercase text-muted-foreground font-semibold">
       Workspace
     </DropdownMenuLabel>
-    <DropdownMenuSeparator className="my-1" />
+    <DropdownMenuSeparator />
 
     <DropdownMenuItem asChild>
       <Link href="/dashboard/settings/workspace" className="flex items-center gap-2">
         <Sliders className="h-3.5 w-3.5" />
         Workspace Settings
-      </Link>
-    </DropdownMenuItem>
-
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/billing" className="flex items-center gap-2">
-        <CreditCard className="h-3.5 w-3.5" />
-        Billing & Plans
       </Link>
     </DropdownMenuItem>
 
@@ -231,38 +228,18 @@ export function DashboardHeader() {
       </Link>
     </DropdownMenuItem>
 
-    {/* ================= PERSONAL ================= */}
-    <DropdownMenuLabel className="mt-2 px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-      Personal
-    </DropdownMenuLabel>
-    <DropdownMenuSeparator className="my-1" />
-
     <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/profile" className="flex items-center gap-2">
-        <User className="h-3.5 w-3.5" />
-        Profile
+      <Link href="/dashboard/settings/billing" className="flex items-center gap-2">
+        <CreditCard className="h-3.5 w-3.5" />
+        Billing & Plans
       </Link>
     </DropdownMenuItem>
 
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/preferences" className="flex items-center gap-2">
-        <Sliders className="h-3.5 w-3.5" />
-        Preferences
-      </Link>
-    </DropdownMenuItem>
-
-    {/* ================= ADVANCED ================= */}
-    <DropdownMenuLabel className="mt-2 px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+    {/* Advanced */}
+    <DropdownMenuLabel className="mt-2 px-2 py-1.5 text-[10px] uppercase text-muted-foreground font-semibold">
       Advanced
     </DropdownMenuLabel>
-    <DropdownMenuSeparator className="my-1" />
-
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/security" className="flex items-center gap-2">
-        <Shield className="h-3.5 w-3.5" />
-        Security
-      </Link>
-    </DropdownMenuItem>
+    <DropdownMenuSeparator />
 
     <DropdownMenuItem asChild>
       <Link href="/dashboard/settings/api-keys" className="flex items-center gap-2">
@@ -277,48 +254,98 @@ export function DashboardHeader() {
         Audit Logs
       </Link>
     </DropdownMenuItem>
+
   </DropdownMenuContent>
 </DropdownMenu>
 
         {/* User Menu */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-accent focus:outline-none">
-              <Avatar className="h-7 w-7">
-                {user?.avatarUrl && <AvatarImage src={user.avatarUrl} />}
-                <AvatarFallback
-                  className="text-[10px] font-bold text-white"
-                  style={{ backgroundColor: avatarColor }}
-                >
-                  {userInitials}
-                </AvatarFallback>
-              </Avatar>
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56" sideOffset={8}>
-            <DropdownMenuLabel className="pb-2">
-              <p className="text-[13px] font-semibold text-foreground">
-                {user ? `${user.firstName} ${user.lastName}` : 'Account'}
-              </p>
-              <p className="text-[11.5px] text-muted-foreground font-normal mt-0.5">{user?.email}</p>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/dashboard/settings" className="flex items-center gap-2 cursor-pointer">
-                <Settings className="h-3.5 w-3.5" />
-                Settings
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => logout()}
-              className="flex items-center gap-2 text-destructive focus:text-destructive cursor-pointer"
-            >
-              <LogOut className="h-3.5 w-3.5" />
-              Sign out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <button className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg hover:bg-accent transition-colors">
+      <Avatar className="h-7 w-7">
+        {user?.avatarUrl && <AvatarImage src={user.avatarUrl} />}
+        <AvatarFallback
+          className="text-[10px] font-bold text-white"
+          style={{ backgroundColor: avatarColor }}
+        >
+          {userInitials}
+        </AvatarFallback>
+      </Avatar>
+    </button>
+  </DropdownMenuTrigger>
+
+  <DropdownMenuContent align="end" className="w-64" sideOffset={8}>
+    
+    {/* User Info */}
+    <DropdownMenuLabel className="pb-2">
+      <p className="text-[13px] font-semibold text-foreground">
+        {user ? `${user.firstName} ${user.lastName}` : 'Account'}
+      </p>
+      <p className="text-[11.5px] text-muted-foreground mt-0.5">
+        {user?.email}
+      </p>
+    </DropdownMenuLabel>
+
+    <DropdownMenuSeparator />
+
+    {/* Personal */}
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/profile" className="flex items-center gap-2">
+        <User className="h-3.5 w-3.5" />
+        Profile
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/preferences" className="flex items-center gap-2">
+        <Sliders className="h-3.5 w-3.5" />
+        Preferences
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/notifications" className="flex items-center gap-2">
+        <BellRing className="h-3.5 w-3.5" />
+        Notifications
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/appearance" className="flex items-center gap-2">
+        <Moon className="h-3.5 w-3.5" />
+        Appearance
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/shortcuts" className="flex items-center gap-2">
+        <Keyboard className="h-3.5 w-3.5" />
+        Keyboard Shortcuts
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuSeparator />
+
+    {/* Help */}
+    <DropdownMenuItem asChild>
+      <Link href="/help" className="flex items-center gap-2">
+        <HelpCircle className="h-3.5 w-3.5" />
+        Help & Support
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuSeparator />
+
+    {/* Logout */}
+    <DropdownMenuItem
+      onClick={() => logout()}
+      className="flex items-center gap-2 text-destructive focus:text-destructive cursor-pointer"
+    >
+      <LogOut className="h-3.5 w-3.5" />
+      Sign out
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
       </div>
     </header>
   );
