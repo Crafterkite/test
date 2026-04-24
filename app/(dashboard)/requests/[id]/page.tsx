@@ -139,7 +139,7 @@ export default function RequestDetailPage() {
   return (
     <div className="space-y-6 max-w-5xl">
       <div className="flex items-center gap-2 text-[12px] text-muted-foreground">
-        <button onClick={() => router.push('/dashboard/requests')} className="hover:text-foreground transition-colors">
+        <button onClick={() => router.push('/requests')} className="hover:text-foreground transition-colors">
           Requests
         </button>
         <ChevronRight className="h-3 w-3" />
@@ -149,7 +149,7 @@ export default function RequestDetailPage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-start gap-3">
           <button
-            onClick={() => router.push('/dashboard/requests')}
+            onClick={() => router.push('/requests')}
             className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-all hover:text-foreground hover:bg-accent"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
