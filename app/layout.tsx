@@ -1,39 +1,31 @@
-'use client';
+import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
+import { Providers } from "./providers";
+import { Toaster } from "@/components/ui/toaster";
 
-import { TopHeader } from '@/components/layout/top-header';
-import { PageHeader } from '@/components/layout/page-header';
-import { DashboardSidebar } from '@/components/layout/sidebar';
-
-export default function DashboardLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-screen flex flex-col">
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen bg-background antialiased">
 
-      {/* 🔝 GLOBAL HEADER (FULL WIDTH) */}
-      <TopHeader />
-
-      {/* 🧱 MAIN CONTENT */}
-      <div className="flex flex-1 overflow-hidden">
-
-        {/* Sidebar */}
-        <DashboardSidebar />
-
-        {/* Page Content */}
-        <main className="flex-1 flex flex-col overflow-hidden">
-
-          {/* Contextual Header (breadcrumbs, views, etc.) */}
-          <PageHeader />
-
-          {/* Page Body */}
-          <div className="flex-1 overflow-auto">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* ✅ THIS MUST WRAP EVERYTHING */}
+          <Providers>
             {children}
-          </div>
+            <Toaster />
+          </Providers>
+        </ThemeProvider>
 
-        </main>
-      </div>
-    </div>
+      </body>
+    </html>
   );
 }
