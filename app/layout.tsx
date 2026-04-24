@@ -2,7 +2,7 @@
 
 import { TopHeader } from '@/components/layout/top-header';
 import { PageHeader } from '@/components/layout/page-header';
-import { Sidebar } from '@/components/layout/sidebar';
+import { DashboardSidebar } from '@/components/layout/sidebar';
 
 export default function DashboardLayout({
   children,
