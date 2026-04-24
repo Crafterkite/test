@@ -86,6 +86,9 @@ const QUICK_ACTIONS = [
 
 export function DashboardHeader() {
   const pathname = usePathname();
+  
+  const isActive = (href: string) => pathname === href;
+  
   const user = useAuthStore((s) => s.user);
   const { mutate: logout } = useLogout();
 
