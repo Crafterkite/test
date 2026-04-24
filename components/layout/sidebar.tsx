@@ -228,7 +228,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" side="top" className="w-[200px] mb-1">
             <DropdownMenuItem asChild>
-              <Link href="/dashboard/settings" className="cursor-pointer">
+              <Link href="/settings" className="cursor-pointer">
                 <Settings className="mr-2 h-3.5 w-3.5" />
                 Settings
               </Link>
