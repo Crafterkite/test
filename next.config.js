@@ -7,3 +7,9 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+const nextConfig = {
+  swcMinify: false,
+};
+
+module.exports = nextConfig;
