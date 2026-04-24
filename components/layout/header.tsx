@@ -184,87 +184,103 @@ export function DashboardHeader() {
        {/* Settings Menu */}
 <DropdownMenu>
   <DropdownMenuTrigger asChild>
-    <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors">
+    <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground">
       <Settings className="h-4 w-4" />
     </button>
   </DropdownMenuTrigger>
 
   <DropdownMenuContent align="end" className="w-64 p-1.5" sideOffset={8}>
     
-    {/* System */}
     <DropdownMenuLabel className="px-2 py-1.5 text-[10px] uppercase text-muted-foreground font-semibold">
       System
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
 
     <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/system" className="flex items-center gap-2">
+      <Link
+        href="/dashboard/settings/system"
+        className={cn(
+          "flex items-center gap-2 rounded-md px-2 py-2",
+          isActive('/dashboard/settings/system') && "bg-accent text-foreground"
+        )}
+      >
         <Settings className="h-3.5 w-3.5" />
         System Settings
       </Link>
     </DropdownMenuItem>
 
     <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/security" className="flex items-center gap-2">
+      <Link
+        href="/dashboard/settings/security"
+        className={cn(
+          "flex items-center gap-2 rounded-md px-2 py-2",
+          isActive('/dashboard/settings/security') && "bg-accent text-foreground"
+        )}
+      >
         <Shield className="h-3.5 w-3.5" />
         Security
       </Link>
     </DropdownMenuItem>
 
-    {/* Workspace */}
     <DropdownMenuLabel className="mt-2 px-2 py-1.5 text-[10px] uppercase text-muted-foreground font-semibold">
       Workspace
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
 
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/workspace" className="flex items-center gap-2">
-        <Sliders className="h-3.5 w-3.5" />
-        Workspace Settings
-      </Link>
-    </DropdownMenuItem>
+    {[
+      { href: '/dashboard/settings/workspace', label: 'Workspace Settings', icon: Sliders },
+      { href: '/dashboard/settings/members', label: 'Members & Permissions', icon: Users },
+      { href: '/dashboard/settings/billing', label: 'Billing & Plans', icon: CreditCard },
+    ].map((item) => {
+      const Icon = item.icon;
+      return (
+        <DropdownMenuItem key={item.href} asChild>
+          <Link
+            href={item.href}
+            className={cn(
+              "flex items-center gap-2 rounded-md px-2 py-2",
+              isActive(item.href) && "bg-accent text-foreground"
+            )}
+          >
+            <Icon className="h-3.5 w-3.5" />
+            {item.label}
+          </Link>
+        </DropdownMenuItem>
+      );
+    })}
 
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/members" className="flex items-center gap-2">
-        <Users className="h-3.5 w-3.5" />
-        Members & Permissions
-      </Link>
-    </DropdownMenuItem>
-
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/billing" className="flex items-center gap-2">
-        <CreditCard className="h-3.5 w-3.5" />
-        Billing & Plans
-      </Link>
-    </DropdownMenuItem>
-
-    {/* Advanced */}
     <DropdownMenuLabel className="mt-2 px-2 py-1.5 text-[10px] uppercase text-muted-foreground font-semibold">
       Advanced
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
 
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/api-keys" className="flex items-center gap-2">
-        <Key className="h-3.5 w-3.5" />
-        API Keys
-      </Link>
-    </DropdownMenuItem>
-
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/audit-logs" className="flex items-center gap-2">
-        <FileText className="h-3.5 w-3.5" />
-        Audit Logs
-      </Link>
-    </DropdownMenuItem>
-
+    {[
+      { href: '/dashboard/settings/api-keys', label: 'API Keys', icon: Key },
+      { href: '/dashboard/settings/audit-logs', label: 'Audit Logs', icon: FileText },
+    ].map((item) => {
+      const Icon = item.icon;
+      return (
+        <DropdownMenuItem key={item.href} asChild>
+          <Link
+            href={item.href}
+            className={cn(
+              "flex items-center gap-2 rounded-md px-2 py-2",
+              isActive(item.href) && "bg-accent text-foreground"
+            )}
+          >
+            <Icon className="h-3.5 w-3.5" />
+            {item.label}
+          </Link>
+        </DropdownMenuItem>
+      );
+    })}
   </DropdownMenuContent>
 </DropdownMenu>
 
         {/* User Menu */}
 <DropdownMenu>
   <DropdownMenuTrigger asChild>
-    <button className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg hover:bg-accent transition-colors">
+    <button className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg hover:bg-accent">
       <Avatar className="h-7 w-7">
         {user?.avatarUrl && <AvatarImage src={user.avatarUrl} />}
         <AvatarFallback
@@ -278,60 +294,43 @@ export function DashboardHeader() {
   </DropdownMenuTrigger>
 
   <DropdownMenuContent align="end" className="w-64" sideOffset={8}>
-    
-    {/* User Info */}
     <DropdownMenuLabel className="pb-2">
-      <p className="text-[13px] font-semibold text-foreground">
+      <p className="text-[13px] font-semibold">
         {user ? `${user.firstName} ${user.lastName}` : 'Account'}
       </p>
-      <p className="text-[11.5px] text-muted-foreground mt-0.5">
-        {user?.email}
-      </p>
+      <p className="text-[11.5px] text-muted-foreground">{user?.email}</p>
     </DropdownMenuLabel>
 
     <DropdownMenuSeparator />
 
-    {/* Personal */}
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/profile" className="flex items-center gap-2">
-        <User className="h-3.5 w-3.5" />
-        Profile
-      </Link>
-    </DropdownMenuItem>
-
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/preferences" className="flex items-center gap-2">
-        <Sliders className="h-3.5 w-3.5" />
-        Preferences
-      </Link>
-    </DropdownMenuItem>
-
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/notifications" className="flex items-center gap-2">
-        <BellRing className="h-3.5 w-3.5" />
-        Notifications
-      </Link>
-    </DropdownMenuItem>
-
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/appearance" className="flex items-center gap-2">
-        <Moon className="h-3.5 w-3.5" />
-        Appearance
-      </Link>
-    </DropdownMenuItem>
-
-    <DropdownMenuItem asChild>
-      <Link href="/dashboard/settings/shortcuts" className="flex items-center gap-2">
-        <Keyboard className="h-3.5 w-3.5" />
-        Keyboard Shortcuts
-      </Link>
-    </DropdownMenuItem>
+    {[
+      { href: '/dashboard/settings/profile', label: 'Profile', icon: User },
+      { href: '/dashboard/settings/preferences', label: 'Preferences', icon: Sliders },
+      { href: '/dashboard/settings/notifications', label: 'Notifications', icon: BellRing },
+      { href: '/dashboard/settings/appearance', label: 'Appearance', icon: Moon },
+      { href: '/dashboard/settings/shortcuts', label: 'Keyboard Shortcuts', icon: Keyboard },
+    ].map((item) => {
+      const Icon = item.icon;
+      return (
+        <DropdownMenuItem key={item.href} asChild>
+          <Link
+            href={item.href}
+            className={cn(
+              "flex items-center gap-2 rounded-md px-2 py-2",
+              isActive(item.href) && "bg-accent text-foreground"
+            )}
+          >
+            <Icon className="h-3.5 w-3.5" />
+            {item.label}
+          </Link>
+        </DropdownMenuItem>
+      );
+    })}
 
     <DropdownMenuSeparator />
 
-    {/* Help */}
     <DropdownMenuItem asChild>
-      <Link href="/help" className="flex items-center gap-2">
+      <Link href="/help" className="flex items-center gap-2 px-2 py-2">
         <HelpCircle className="h-3.5 w-3.5" />
         Help & Support
       </Link>
@@ -339,10 +338,9 @@ export function DashboardHeader() {
 
     <DropdownMenuSeparator />
 
-    {/* Logout */}
     <DropdownMenuItem
       onClick={() => logout()}
-      className="flex items-center gap-2 text-destructive focus:text-destructive cursor-pointer"
+      className="flex items-center gap-2 text-destructive"
     >
       <LogOut className="h-3.5 w-3.5" />
       Sign out
