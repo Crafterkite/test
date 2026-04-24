@@ -14,7 +14,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isEditor = pathname.startsWith('/dashboard/docs/editor');
+  const isEditor = pathname.startsWith('/docs/editor');
 
   return (
     <AuthGuard>
