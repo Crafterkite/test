@@ -46,15 +46,15 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Overview', href: '/dashboard', icon: LayoutDashboard, exact: true },
-  { label: 'Requests', href: '/dashboard/requests', icon: FileStack },
-  { label: 'Tasks', href: '/dashboard/tasks', icon: CheckSquare },
-  { label: 'Brand Profiles', href: '/dashboard/brand-profiles', icon: Palette },
-  { label: 'Team', href: '/dashboard/team', icon: Users },
-  { label: 'Workspaces', href: '/dashboard/workspaces', icon: Layers },
-  { label: 'Chat', href: '/dashboard/chat', icon: MessageSquare },
-  { label: 'AI Agents', href: '/dashboard/agents', icon: Bot },
-  { label: 'Docs', href: '/dashboard/docs', icon: FileText },
+  { label: 'Overview', href: '/', icon: LayoutDashboard, exact: true },
+  { label: 'Requests', href: '/requests', icon: FileStack },
+  { label: 'Tasks', href: '/tasks', icon: CheckSquare },
+  { label: 'Brand Profiles', href: '/brand-profiles', icon: Palette },
+  { label: 'Team', href: '/team', icon: Users },
+  { label: 'Workspaces', href: '/workspaces', icon: Layers },
+  { label: 'Chat', href: '/chat', icon: MessageSquare },
+  { label: 'AI Agents', href: '/agents', icon: Bot },
+  { label: 'Docs', href: '/docs', icon: FileText },
 ];
 
 function SidebarContent({ onClose }: { onClose?: () => void }) {
