@@ -1,12 +1,13 @@
 /* ============================================================
-   GLOBAL CSS — SaaS UI  |  Smooth · Modern · Elegant
+   GLOBAL CSS — Crafterkite SaaS UI
+   Depth-first design: backgrounds recede, widgets pop
    ============================================================ */
 
 /*
   Font strategy:
   - Sans: System-native on Apple (SF Pro) and Windows (Segoe UI).
-          Falls back to Inter from Google Fonts on all other platforms (Linux, Android, etc.).
-  - Mono: Geist Mono served from local files (via Next.js localFont). No CDN request.
+          Falls back to Inter from Google Fonts on all other platforms.
+  - Mono: Geist Mono served from local files (via Next.js localFont).
 */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.fontshare.com/css?family=satoshi:300,400,500,600,700');
@@ -20,119 +21,185 @@
    ============================================================ */
 @layer base {
   :root {
-    /* --- Surfaces --- */
-    --background:        0 0% 99%;
-    --foreground:        222 20% 10%;
-    --card:              0 0% 100%;
-    --card-foreground:   222 20% 10%;
+    /* ── Depth system (light) ──────────────────────────────
+       The key insight from your references: the background
+       is a noticeably cooler, darker grey-blue — not white.
+       Cards sit ON TOP as pure white surfaces, creating
+       strong widget lift (like the Twisty reference).
+    ────────────────────────────────────────────────────── */
+    --background:        220 18% 93%;   /* cool blue-grey page wash  */
+    --surface-sunken:    220 20% 89%;   /* recessed wells / insets   */
+    --foreground:        222 25% 11%;
+
+    --card:              0 0% 100%;     /* pure white — maximum lift */
+    --card-foreground:   222 25% 11%;
+    --card-raised:       0 0% 100%;     /* same; alias for clarity   */
+
     --popover:           0 0% 100%;
-    --popover-foreground:222 20% 10%;
+    --popover-foreground:222 25% 11%;
 
-    /* --- Brand --- */
-    --primary: 225 100% 72%;
-    --primary-foreground: 0 0% 100%;
-    --primary-subtle:    221 83% 97%;   /* tinted hover surface */
+    /* ── Brand ─────────────────────────────────────────── */
+    --primary:           225 85% 60%;
+    --primary-foreground:0 0% 100%;
+    --primary-subtle:    225 85% 96%;
+    --primary-muted:     225 70% 92%;
 
-    /* --- Neutrals --- */
-    --secondary:         220 20% 96%;
-    --secondary-foreground: 222 20% 10%;
-    --muted:             220 18% 95%;
-    --muted-foreground:  220 10% 52%;
-    --accent:            220 20% 93%;
-    --accent-foreground: 222 20% 10%;
+    /* ── Neutrals ──────────────────────────────────────── */
+    --secondary:         220 15% 96%;
+    --secondary-foreground: 222 25% 11%;
+    --muted:             220 16% 91%;
+    --muted-foreground:  220 12% 46%;
+    --accent:            220 18% 87%;
+    --accent-foreground: 222 25% 11%;
 
-    /* --- States --- */
-    --destructive:       0 84% 60%;
+    /* ── Semantic states ───────────────────────────────── */
+    --destructive:       0 82% 58%;
     --destructive-foreground: 0 0% 100%;
-    --success:           142 70% 40%;
+    --success:           142 65% 38%;
     --success-foreground:0 0% 100%;
-    --warning:           38 92% 50%;
+    --warning:           36 90% 48%;
     --warning-foreground:0 0% 100%;
+    --info:              210 80% 54%;
+    --info-foreground:   0 0% 100%;
 
-    /* --- Chrome --- */
-    --border:            220 16% 90%;
-    --border-subtle:     220 14% 94%;
-    --input:             220 16% 90%;
-    --ring:              221 83% 53%;
+    /* ── Chrome ────────────────────────────────────────── */
+    --border:            220 16% 86%;
+    --border-subtle:     220 14% 90%;
+    --border-strong:     220 18% 78%;
+    --input:             0 0% 100%;
+    --input-border:      220 16% 82%;
+    --ring:              225 85% 60%;
 
-    /* --- Shape --- */
+    /* ── Sidebar (slightly darker than background) ─────── */
+    --sidebar:           222 22% 17%;
+    --sidebar-foreground:215 20% 88%;
+    --sidebar-border:    222 18% 22%;
+    --sidebar-accent:    222 18% 24%;
+    --sidebar-muted:     220 12% 55%;
+
+    /* ── Shape ─────────────────────────────────────────── */
     --radius:            0.625rem;
     --radius-sm:         0.375rem;
+    --radius-md:         0.5rem;
     --radius-lg:         0.875rem;
     --radius-xl:         1.25rem;
+    --radius-2xl:        1.75rem;
     --radius-full:       9999px;
 
-    /* --- Typography --- */
-    --font-sans:         -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
-    --font-display:      "Satoshi", -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
-    --font-mono:         "Geist Mono", ui-monospace, monospace;
+    /* ── Typography ────────────────────────────────────── */
+    --font-sans:    -apple-system, BlinkMacSystemFont, "Segoe UI Variable",
+                    "Segoe UI", "Inter", system-ui, sans-serif;
+    --font-display: "Satoshi", -apple-system, BlinkMacSystemFont,
+                    "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
+    --font-mono:    "Geist Mono", ui-monospace, monospace;
 
-    /* --- Shadows (light) --- */
-    --shadow-xs:         0 1px 2px 0 hsl(220 20% 10% / 0.04);
-    --shadow-sm:         0 1px 3px 0 hsl(220 20% 10% / 0.06), 0 1px 2px -1px hsl(220 20% 10% / 0.04);
-    --shadow-md:         0 4px 12px -2px hsl(220 20% 10% / 0.08), 0 2px 6px -2px hsl(220 20% 10% / 0.05);
-    --shadow-lg:         0 12px 32px -4px hsl(220 20% 10% / 0.10), 0 4px 12px -4px hsl(220 20% 10% / 0.06);
-    --shadow-xl:         0 24px 48px -8px hsl(220 20% 10% / 0.12), 0 8px 24px -8px hsl(220 20% 10% / 0.07);
-    --shadow-glow:       0 0 0 3px hsl(var(--primary) / 0.18);
+    /* ── Shadows (light — stronger for card lift) ──────── */
+    --shadow-xs:    0 1px 2px 0 hsl(220 25% 8% / 0.05);
+    --shadow-sm:    0 1px 3px 0 hsl(220 25% 8% / 0.08),
+                    0 1px 2px -1px hsl(220 25% 8% / 0.05);
+    --shadow-md:    0 4px 16px -2px hsl(220 25% 8% / 0.10),
+                    0 2px 6px -2px hsl(220 25% 8% / 0.07);
+    --shadow-lg:    0 12px 36px -4px hsl(220 25% 8% / 0.13),
+                    0 4px 14px -4px hsl(220 25% 8% / 0.08);
+    --shadow-xl:    0 24px 56px -8px hsl(220 25% 8% / 0.16),
+                    0 8px 28px -8px hsl(220 25% 8% / 0.10);
+    --shadow-card:  0 2px 8px -1px hsl(220 25% 8% / 0.09),
+                    0 1px 3px -1px hsl(220 25% 8% / 0.06);
+    --shadow-glow:  0 0 0 3px hsl(var(--primary) / 0.20);
 
-    /* --- Motion --- */
-    --ease-out:          cubic-bezier(0.16, 1, 0.3, 1);
-    --ease-in-out:       cubic-bezier(0.45, 0, 0.55, 1);
-    --ease-spring:       cubic-bezier(0.34, 1.56, 0.64, 1);
-    --duration-fast:     120ms;
-    --duration-base:     200ms;
-    --duration-slow:     350ms;
-    --duration-slower:   500ms;
+    /* ── Motion ────────────────────────────────────────── */
+    --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out:  cubic-bezier(0.45, 0, 0.55, 1);
+    --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-snap:    cubic-bezier(0.2, 0, 0, 1);
+    --duration-fast:  120ms;
+    --duration-base:  200ms;
+    --duration-slow:  350ms;
+    --duration-slower:500ms;
   }
 
+  /* ── Dark mode ─────────────────────────────────────────────
+     Inspired by ref #1: true near-black base, then 3 distinct
+     surface levels stepping up in lightness. Cards clearly
+     "float" above the page via both color + shadow.
+  ────────────────────────────────────────────────────────── */
   .dark {
-    /* --- Surfaces --- */
-    --background:        228 14% 6%;
-    --foreground:        215 20% 92%;
-    --card:              228 13% 9%;
-    --card-foreground:   215 20% 92%;
-    --popover:           228 13% 9%;
-    --popover-foreground:215 20% 92%;
+    /* Depth layers:
+       background    → deepest   (page wash)
+       surface-sunken→ recessed  (insets, wells)
+       card          → lifted    (widgets, panels)
+       card-raised   → elevated  (modals, popovers)
+    */
+    --background:        228 16% 7%;    /* near-black with blue tint  */
+    --surface-sunken:    228 16% 5%;    /* recessed / input bg        */
+    --foreground:        215 18% 91%;
 
-    /* --- Brand --- */
-    --primary:           217 91% 60%;
-    --primary-foreground:222 47% 8%;
-    --primary-subtle:    221 83% 13%;
+    --card:              228 14% 11%;   /* +4% lightness over bg      */
+    --card-foreground:   215 18% 91%;
+    --card-raised:       228 13% 14%;   /* modals, dropdowns          */
 
-    /* --- Neutrals --- */
-    --secondary:         228 10% 13%;
-    --secondary-foreground: 215 20% 88%;
-    --muted:             228 10% 13%;
-    --muted-foreground:  220 9% 48%;
-    --accent:            228 10% 16%;
-    --accent-foreground: 215 20% 88%;
+    --popover:           228 13% 14%;
+    --popover-foreground:215 18% 91%;
 
-    /* --- States --- */
-    --destructive:       0 68% 55%;
+    /* ── Brand ─────────────────────────────────────────── */
+    --primary:           225 80% 62%;
+    --primary-foreground:228 30% 8%;
+    --primary-subtle:    225 60% 16%;
+    --primary-muted:     225 50% 20%;
+
+    /* ── Neutrals ──────────────────────────────────────── */
+    --secondary:         228 12% 15%;
+    --secondary-foreground: 215 18% 88%;
+    --muted:             228 12% 14%;
+    --muted-foreground:  220 10% 50%;
+    --accent:            228 12% 17%;
+    --accent-foreground: 215 18% 88%;
+
+    /* ── Semantic ──────────────────────────────────────── */
+    --destructive:       0 65% 54%;
     --destructive-foreground: 0 0% 100%;
-    --success:           142 60% 45%;
+    --success:           142 58% 43%;
     --success-foreground:0 0% 100%;
-    --warning:           38 88% 52%;
-    --warning-foreground:0 0% 100%;
+    --warning:           36 86% 50%;
+    --warning-foreground:228 20% 8%;
+    --info:              210 75% 56%;
+    --info-foreground:   0 0% 100%;
 
-    /* --- Chrome --- */
-    --border:            228 10% 16%;
-    --border-subtle:     228 10% 12%;
-    --input:             228 10% 16%;
-    --ring:              217 91% 60%;
+    /* ── Chrome ────────────────────────────────────────── */
+    --border:            228 12% 18%;
+    --border-subtle:     228 12% 14%;
+    --border-strong:     228 12% 24%;
+    --input:             228 16% 9%;
+    --input-border:      228 12% 20%;
+    --ring:              225 80% 62%;
 
-    /* --- Shadows (dark — use glow/tint instead of darkness) --- */
-    --shadow-xs:         0 1px 2px 0 hsl(0 0% 0% / 0.20);
-    --shadow-sm:         0 1px 3px 0 hsl(0 0% 0% / 0.28), 0 1px 2px -1px hsl(0 0% 0% / 0.20);
-    --shadow-md:         0 4px 12px -2px hsl(0 0% 0% / 0.32), 0 2px 6px -2px hsl(0 0% 0% / 0.22);
-    --shadow-lg:         0 12px 32px -4px hsl(0 0% 0% / 0.38), 0 4px 12px -4px hsl(0 0% 0% / 0.26);
-    --shadow-xl:         0 24px 48px -8px hsl(0 0% 0% / 0.44), 0 8px 24px -8px hsl(0 0% 0% / 0.30);
-    --shadow-glow:       0 0 0 3px hsl(var(--primary) / 0.22);
+    /* ── Sidebar ───────────────────────────────────────── */
+    --sidebar:           228 18% 8.5%; /* just above background      */
+    --sidebar-foreground:215 15% 82%;
+    --sidebar-border:    228 14% 13%;
+    --sidebar-accent:    228 14% 15%;
+    --sidebar-muted:     220 10% 46%;
 
-    /* --- Motion unchanged --- */
-    --font-sans:         -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
-    --font-display:      "Satoshi", -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
-    --font-mono:         "Geist Mono", ui-monospace, monospace;
+    /* ── Shadows (dark — use subtle glow lifts) ────────── */
+    --shadow-xs:    0 1px 2px 0 hsl(0 0% 0% / 0.25);
+    --shadow-sm:    0 1px 4px 0 hsl(0 0% 0% / 0.32),
+                    0 1px 2px -1px hsl(0 0% 0% / 0.20);
+    --shadow-md:    0 4px 16px -2px hsl(0 0% 0% / 0.38),
+                    0 2px 8px -2px hsl(0 0% 0% / 0.25);
+    --shadow-lg:    0 12px 36px -4px hsl(0 0% 0% / 0.44),
+                    0 4px 16px -4px hsl(0 0% 0% / 0.30);
+    --shadow-xl:    0 24px 56px -8px hsl(0 0% 0% / 0.52),
+                    0 8px 28px -8px hsl(0 0% 0% / 0.36);
+    --shadow-card:  0 2px 12px -1px hsl(0 0% 0% / 0.35),
+                    0 1px 4px -1px hsl(0 0% 0% / 0.22);
+    --shadow-glow:  0 0 0 3px hsl(var(--primary) / 0.24);
+
+    /* Fonts unchanged */
+    --font-sans:    -apple-system, BlinkMacSystemFont, "Segoe UI Variable",
+                    "Segoe UI", "Inter", system-ui, sans-serif;
+    --font-display: "Satoshi", -apple-system, BlinkMacSystemFont,
+                    "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
+    --font-mono:    "Geist Mono", ui-monospace, monospace;
   }
 }
 
@@ -152,7 +219,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
-    /* Prevent layout shift from scrollbar */
     scrollbar-gutter: stable;
   }
 
@@ -178,36 +244,29 @@
   }
 
   h1 {
-    font-size: clamp(1.85rem, 4vw, 2.5rem);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 700;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.04em;
   }
 
   h2 {
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(1.4rem, 3vw, 2rem);
     font-weight: 650;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.03em;
   }
 
   h3 {
-    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-    letter-spacing: -0.025em;
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    letter-spacing: -0.02em;
   }
 
-  h4 {
-    font-size: 1.2rem;
-    letter-spacing: -0.015em;
-  }
-
-  h5 {
-    font-size: 1.05rem;
-    letter-spacing: -0.01em;
-  }
+  h4 { font-size: 1.15rem; letter-spacing: -0.015em; }
+  h5 { font-size: 1.0rem;  letter-spacing: -0.01em; }
 
   h6 {
-    font-size: 0.9375rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.005em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: hsl(var(--muted-foreground));
   }
@@ -218,23 +277,20 @@
     text-wrap: pretty;
   }
 
-  /* Display utility — for hero/marketing headings */
   .display {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.25rem, 6vw, 4rem);
     font-weight: 700;
-    letter-spacing: -0.055em;
+    letter-spacing: -0.05em;
     line-height: 1.05;
   }
 
-  /* Lead / intro paragraph */
   .lead {
-    font-size: 1.125rem;
+    font-size: 1.1rem;
     line-height: 1.75;
     color: hsl(var(--muted-foreground));
   }
 
-  /* Label utility */
   label {
     font-size: 0.875rem;
     font-weight: 500;
@@ -242,10 +298,7 @@
     color: hsl(var(--foreground));
   }
 
-  small, .text-sm {
-    font-size: 0.875rem;
-    line-height: 1.5;
-  }
+  small, .text-sm { font-size: 0.875rem; line-height: 1.5; }
 
   /* ── Form elements ──────────────────────────────────────── */
   button, input, textarea, select, [role="button"] {
@@ -255,14 +308,15 @@
   }
 
   input, textarea, select {
-    background-color: hsl(var(--card));
+    background-color: hsl(var(--input));
     color: hsl(var(--foreground));
-    border: 1px solid hsl(var(--border));
+    border: 1px solid hsl(var(--input-border));
     border-radius: var(--radius);
     padding: 0.5rem 0.75rem;
     transition:
       border-color var(--duration-base) var(--ease-out),
-      box-shadow var(--duration-base) var(--ease-out);
+      box-shadow var(--duration-base) var(--ease-out),
+      background-color var(--duration-base) var(--ease-out);
   }
 
   input:focus, textarea:focus, select:focus {
@@ -271,7 +325,11 @@
     box-shadow: var(--shadow-glow);
   }
 
-  /* ── Navigation / Sidebar ───────────────────────────────── */
+  input::placeholder, textarea::placeholder {
+    color: hsl(var(--muted-foreground) / 0.65);
+  }
+
+  /* ── Sidebar ────────────────────────────────────────────── */
   nav,
   [data-sidebar],
   aside,
@@ -287,7 +345,7 @@
   /* ── Code ───────────────────────────────────────────────── */
   code, kbd {
     font-family: var(--font-mono);
-    font-size: 0.875em;
+    font-size: 0.8125em;
     font-weight: 500;
     background: hsl(var(--muted));
     color: hsl(var(--foreground));
@@ -300,7 +358,7 @@
     font-family: var(--font-mono);
     font-size: 0.875rem;
     line-height: 1.7;
-    background: hsl(var(--muted));
+    background: hsl(var(--surface-sunken));
     border: 1px solid hsl(var(--border));
     border-radius: var(--radius-lg);
     padding: 1.25rem 1.5rem;
@@ -321,26 +379,21 @@
     transition: color var(--duration-fast) var(--ease-out);
   }
 
-  /* Only underline links inside prose/content areas */
-  article a,
-  .prose a,
-  .content a {
+  article a, .prose a, .content a {
     color: hsl(var(--primary));
     text-decoration-line: underline;
-    text-decoration-color: hsl(var(--primary) / 0.3);
+    text-decoration-color: hsl(var(--primary) / 0.35);
     text-underline-offset: 3px;
     transition:
       color var(--duration-fast) var(--ease-out),
       text-decoration-color var(--duration-fast) var(--ease-out);
   }
 
-  article a:hover,
-  .prose a:hover,
-  .content a:hover {
+  article a:hover, .prose a:hover, .content a:hover {
     text-decoration-color: hsl(var(--primary));
   }
 
-  /* ── Horizontal rule ────────────────────────────────────── */
+  /* ── HR ─────────────────────────────────────────────────── */
   hr {
     border: none;
     border-top: 1px solid hsl(var(--border));
@@ -348,10 +401,7 @@
   }
 
   /* ── Lists ──────────────────────────────────────────────── */
-  ul, ol {
-    padding-left: 1.5rem;
-  }
-
+  ul, ol { padding-left: 1.5rem; }
   li {
     font-size: 1rem;
     line-height: 1.65;
@@ -368,11 +418,11 @@
   th {
     font-weight: 600;
     text-align: left;
-    font-size: 0.8125rem;
-    letter-spacing: 0.03em;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: hsl(var(--muted-foreground));
-    border-bottom: 2px solid hsl(var(--border));
+    border-bottom: 1px solid hsl(var(--border));
     padding: 0.75rem 1rem;
   }
 
@@ -382,12 +432,10 @@
     color: hsl(var(--foreground));
   }
 
-  tr:last-child td {
-    border-bottom: none;
-  }
+  tr:last-child td { border-bottom: none; }
 
   tr:hover td {
-    background-color: hsl(var(--muted) / 0.5);
+    background-color: hsl(var(--accent) / 0.5);
     transition: background-color var(--duration-fast) var(--ease-out);
   }
 }
@@ -396,28 +444,58 @@
    COMPONENT LAYER
    ============================================================ */
 @layer components {
-  /* ── Card ───────────────────────────────────────────────── */
+
+  /* ── Card — the primary widget surface ──────────────────────
+     Uses --shadow-card which is tuned for both light/dark to
+     create genuine depth lift off the page background.
+  ────────────────────────────────────────────────────────── */
   .card {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-card);
     transition:
       box-shadow var(--duration-base) var(--ease-out),
-      border-color var(--duration-base) var(--ease-out);
+      border-color var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
   }
 
   .card:hover {
     box-shadow: var(--shadow-md);
-    border-color: hsl(var(--border) / 0.8);
+    border-color: hsl(var(--border-strong));
+  }
+
+  /* Raised card — for modals, dropdowns, popovers */
+  .card-raised {
+    background: hsl(var(--card-raised));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Sunken / inset surface — inputs, code areas, wells */
+  .surface-inset {
+    background: hsl(var(--surface-sunken));
+    border: 1px solid hsl(var(--border-subtle));
+    border-radius: var(--radius);
   }
 
   /* ── Glass surface ──────────────────────────────────────── */
   .glass {
-    background: hsl(var(--card) / 0.72);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid hsl(var(--border) / 0.6);
+    background: hsl(var(--card) / 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid hsl(var(--border) / 0.65);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ── Stat card — hero numbers ───────────────────────────── */
+  .stat-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 1.25rem;
   }
 
   /* ── Badge ──────────────────────────────────────────────── */
@@ -425,9 +503,10 @@
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
     padding: 0.2rem 0.6rem;
     border-radius: var(--radius-full);
     border: 1px solid hsl(var(--border));
@@ -437,68 +516,99 @@
   }
 
   .badge-primary {
-    background: hsl(var(--primary) / 0.1);
-    border-color: hsl(var(--primary) / 0.25);
+    background: hsl(var(--primary) / 0.12);
+    border-color: hsl(var(--primary) / 0.3);
     color: hsl(var(--primary));
   }
 
-  /* ── Button base ────────────────────────────────────────── */
+  .badge-success {
+    background: hsl(var(--success) / 0.10);
+    border-color: hsl(var(--success) / 0.25);
+    color: hsl(var(--success));
+  }
+
+  .badge-warning {
+    background: hsl(var(--warning) / 0.12);
+    border-color: hsl(var(--warning) / 0.3);
+    color: hsl(var(--warning));
+  }
+
+  .badge-destructive {
+    background: hsl(var(--destructive) / 0.10);
+    border-color: hsl(var(--destructive) / 0.25);
+    color: hsl(var(--destructive));
+  }
+
+  /* ── Button ─────────────────────────────────────────────── */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     font-family: var(--font-sans);
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 500;
     line-height: 1;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.008em;
     padding: 0.5625rem 1.125rem;
     border-radius: var(--radius);
     border: 1px solid transparent;
     cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
     transition:
       background-color var(--duration-fast) var(--ease-out),
       border-color var(--duration-fast) var(--ease-out),
       color var(--duration-fast) var(--ease-out),
       box-shadow var(--duration-fast) var(--ease-out),
       transform var(--duration-fast) var(--ease-spring);
-    user-select: none;
-    white-space: nowrap;
   }
 
-  .btn:active {
-    transform: scale(0.975);
-  }
+  .btn:active { transform: scale(0.975); }
 
   .btn-primary {
     background: hsl(var(--primary));
     color: hsl(var(--primary-foreground));
-    box-shadow: 0 1px 2px hsl(var(--primary) / 0.3), var(--shadow-xs);
+    box-shadow: 0 1px 3px hsl(var(--primary) / 0.35), var(--shadow-xs);
   }
 
   .btn-primary:hover {
-    background: hsl(var(--primary) / 0.9);
-    box-shadow: 0 2px 8px hsl(var(--primary) / 0.35), var(--shadow-sm);
+    background: hsl(var(--primary) / 0.88);
+    box-shadow: 0 2px 10px hsl(var(--primary) / 0.4), var(--shadow-sm);
+  }
+
+  .btn-secondary {
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+    box-shadow: var(--shadow-xs);
+  }
+
+  .btn-secondary:hover {
+    background: hsl(var(--accent));
+    border-color: hsl(var(--border-strong));
   }
 
   .btn-ghost {
     background: transparent;
-    color: hsl(var(--foreground));
+    color: hsl(var(--muted-foreground));
   }
 
   .btn-ghost:hover {
     background: hsl(var(--accent));
+    color: hsl(var(--foreground));
   }
 
-  /* ── Subtle divider with label ──────────────────────────── */
+  /* ── Divider with label ─────────────────────────────────── */
   .divider {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     color: hsl(var(--muted-foreground));
-    font-size: 0.8125rem;
-    font-weight: 500;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .divider::before,
@@ -508,33 +618,60 @@
     height: 1px;
     background: hsl(var(--border));
   }
+
+  /* ── Sidebar surface ─────────────────────────────────────
+     Sidebar uses its own token set so it can be dark even
+     in light mode (like both reference images show).
+  ────────────────────────────────────────────────────────── */
+  .sidebar-surface {
+    background: hsl(var(--sidebar));
+    color: hsl(var(--sidebar-foreground));
+    border-color: hsl(var(--sidebar-border));
+  }
 }
 
 /* ============================================================
    UTILITY LAYER
    ============================================================ */
 @layer utilities {
-  /* Font families */
+  /* Fonts */
   .font-sans    { font-family: var(--font-sans); }
   .font-display { font-family: var(--font-display); }
   .font-mono    { font-family: var(--font-mono); font-size: 0.875em; }
 
-  /* Shadows */
-  .shadow-xs  { box-shadow: var(--shadow-xs); }
-  .shadow-sm  { box-shadow: var(--shadow-sm); }
-  .shadow-md  { box-shadow: var(--shadow-md); }
-  .shadow-lg  { box-shadow: var(--shadow-lg); }
-  .shadow-xl  { box-shadow: var(--shadow-xl); }
+  /* Shadow scale */
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-xs   { box-shadow: var(--shadow-xs);  }
+  .shadow-sm   { box-shadow: var(--shadow-sm);  }
+  .shadow-md   { box-shadow: var(--shadow-md);  }
+  .shadow-lg   { box-shadow: var(--shadow-lg);  }
+  .shadow-xl   { box-shadow: var(--shadow-xl);  }
+  .shadow-glow { box-shadow: var(--shadow-glow);}
+
+  /* Surface depth helpers */
+  .bg-surface-sunken { background: hsl(var(--surface-sunken)); }
+  .bg-card-raised    { background: hsl(var(--card-raised));    }
 
   /* Gradient text */
   .text-gradient {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.65) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)) 0%,
+      hsl(225 70% 72%) 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Muted surface */
+  /* Subtle tinted surface for icon backgrounds */
+  .icon-surface {
+    background: hsl(var(--muted));
+    border: 1px solid hsl(var(--border-subtle));
+    border-radius: var(--radius-md);
+  }
+
+  /* Page section background — slightly differentiated from bg */
   .surface-muted {
     background: hsl(var(--muted));
     border: 1px solid hsl(var(--border-subtle));
@@ -557,39 +694,32 @@
     transition: width var(--duration-base) var(--ease-out);
   }
 
-  .underline-animated:hover::after {
-    width: 100%;
-  }
+  .underline-animated:hover::after { width: 100%; }
 
-  /* Smooth height transitions */
+  /* Smooth height */
   .animate-height {
     transition: height var(--duration-slow) var(--ease-out);
+  }
+
+  /* Inset shadow (for active/pressed states) */
+  .shadow-inset {
+    box-shadow: inset 0 1px 3px hsl(0 0% 0% / 0.08);
   }
 }
 
 /* ============================================================
-   SCROLLBAR — slim & themed
+   SCROLLBAR
    ============================================================ */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--border));
   border-radius: 99px;
-  transition: background var(--duration-base) var(--ease-out);
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.45);
+  background: hsl(var(--muted-foreground) / 0.4);
 }
 
-/* Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--border)) transparent;
@@ -610,7 +740,7 @@
 }
 
 /* ============================================================
-   MOTION — respect OS preference
+   REDUCED MOTION
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -625,12 +755,6 @@
    PRINT
    ============================================================ */
 @media print {
-  body {
-    background: white;
-    color: black;
-  }
-
-  .no-print {
-    display: none !important;
-  }
+  body { background: white; color: black; }
+  .no-print { display: none !important; }
 }
