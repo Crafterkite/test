@@ -3,13 +3,17 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: { unoptimized: true },
-};
 
-module.exports = nextConfig;
+  images: {
+    unoptimized: true,
+  },
 
-const nextConfig = {
-  swcMinify: false,
+  swcMinify: false, // fallback for restricted environments
+
+  webpack: (config) => {
+    config.cache = false; // 🔥 fixes EIO / cache issues
+    return config;
+  },
 };
 
 module.exports = nextConfig;
