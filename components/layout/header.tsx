@@ -14,7 +14,16 @@ import {
   Layers,
   Settings,
   LogOut,
+  Settings,
+  User,
+  CreditCard,
+  Users,
+  Sliders,
+  Key,
+  FileText,
+  Shield,
 } from 'lucide-react';
+
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import {
   DropdownMenu,
@@ -167,12 +176,107 @@ export function DashboardHeader() {
         {/* Theme Toggle */}
         <ThemeToggle />
 
-        {/* Settings Icon */}
-        <Link href="/dashboard/settings">
-          <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus:outline-none">
-            <Settings className="h-4 w-4" />
-          </button>
-        </Link>
+       {/* Settings Menu */}
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus:outline-none">
+      <Settings className="h-4 w-4" />
+    </button>
+  </DropdownMenuTrigger>
+
+  <DropdownMenuContent
+    align="end"
+    className="w-64 p-1.5"
+    sideOffset={8}
+  >
+    {/* ================= SYSTEM ================= */}
+    <DropdownMenuLabel className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+      System
+    </DropdownMenuLabel>
+    <DropdownMenuSeparator className="my-1" />
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/system" className="flex items-center gap-2">
+        <Settings className="h-3.5 w-3.5" />
+        System Settings
+      </Link>
+    </DropdownMenuItem>
+
+    {/* ================= WORKSPACE ================= */}
+    <DropdownMenuLabel className="mt-2 px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+      Workspace
+    </DropdownMenuLabel>
+    <DropdownMenuSeparator className="my-1" />
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/workspace" className="flex items-center gap-2">
+        <Sliders className="h-3.5 w-3.5" />
+        Workspace Settings
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/billing" className="flex items-center gap-2">
+        <CreditCard className="h-3.5 w-3.5" />
+        Billing & Plans
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/members" className="flex items-center gap-2">
+        <Users className="h-3.5 w-3.5" />
+        Members & Permissions
+      </Link>
+    </DropdownMenuItem>
+
+    {/* ================= PERSONAL ================= */}
+    <DropdownMenuLabel className="mt-2 px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+      Personal
+    </DropdownMenuLabel>
+    <DropdownMenuSeparator className="my-1" />
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/profile" className="flex items-center gap-2">
+        <User className="h-3.5 w-3.5" />
+        Profile
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/preferences" className="flex items-center gap-2">
+        <Sliders className="h-3.5 w-3.5" />
+        Preferences
+      </Link>
+    </DropdownMenuItem>
+
+    {/* ================= ADVANCED ================= */}
+    <DropdownMenuLabel className="mt-2 px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+      Advanced
+    </DropdownMenuLabel>
+    <DropdownMenuSeparator className="my-1" />
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/security" className="flex items-center gap-2">
+        <Shield className="h-3.5 w-3.5" />
+        Security
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/api-keys" className="flex items-center gap-2">
+        <Key className="h-3.5 w-3.5" />
+        API Keys
+      </Link>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem asChild>
+      <Link href="/dashboard/settings/audit-logs" className="flex items-center gap-2">
+        <FileText className="h-3.5 w-3.5" />
+        Audit Logs
+      </Link>
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
 
         {/* User Menu */}
         <DropdownMenu>
