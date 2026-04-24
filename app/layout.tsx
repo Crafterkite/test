@@ -1,65 +1,39 @@
-import type { Metadata } from "next";
-import { ThemeProvider } from "next-themes";
-import { Providers } from "./providers";
-import { Toaster } from "@/components/ui/toaster";
-import localFont from "next/font/local";
-import "./globals.css";
+'use client';
 
-// Geist Mono for code only (kept exactly as you had it)
-const geistMono = localFont({
-  src: [
-    { path: "/fonts/geist-mono/GeistMono-Regular.woff2", weight: "400", style: "normal" },
-    { path: "/fonts/geist-mono/GeistMono-Medium.woff2", weight: "500", style: "normal" },
-    { path: "/fonts/geist-mono/GeistMono-SemiBold.woff2", weight: "600", style: "normal" },
-    { path: "/fonts/geist-mono/GeistMono-Bold.woff2", weight: "700", style: "normal" },
-  ],
-  variable: "--font-mono",
-  display: "swap",
-  preload: true,
-});
+import { TopHeader } from '@/components/layout/top-header';
+import { PageHeader } from '@/components/layout/page-header';
+import { Sidebar } from '@/components/layout/sidebar';
 
-export const metadata: Metadata = {
-  title: {
-    default: "Crafterkite | Creative Operations OS",
-    template: "%s | Crafterkite",
-  },
-  description:
-    "Crafterkite is a premium multi-tenant Creative Operations OS designed to streamline your creative workflow.",
-  keywords: ["creative operations", "design management", "brand assets", "creative workflow"],
-  authors: [{ name: "Crafterkite" }],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    title: "Crafterkite | Creative Operations OS",
-    description: "A premium multi-tenant Creative Operations OS.",
-    siteName: "Crafterkite",
-  },
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={geistMono.variable}
-    >
-      <body className="min-h-screen bg-background antialiased font-sans">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={true}
-          disableTransitionOnChange
-        >
-          <Providers>
+    <div className="h-screen flex flex-col">
+
+      {/* 🔝 GLOBAL HEADER (FULL WIDTH) */}
+      <TopHeader />
+
+      {/* 🧱 MAIN CONTENT */}
+      <div className="flex flex-1 overflow-hidden">
+
+        {/* Sidebar */}
+        <Sidebar />
+
+        {/* Page Content */}
+        <main className="flex-1 flex flex-col overflow-hidden">
+
+          {/* Contextual Header (breadcrumbs, views, etc.) */}
+          <PageHeader />
+
+          {/* Page Body */}
+          <div className="flex-1 overflow-auto">
             {children}
-            <Toaster />
-          </Providers>
-        </ThemeProvider>
-      </body>
-    </html>
+          </div>
+
+        </main>
+      </div>
+    </div>
   );
 }
