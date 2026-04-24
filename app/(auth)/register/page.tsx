@@ -74,7 +74,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (isHydrated && isAuthenticated) {
-      router.replace('/dashboard');
+      router.replace('/');
     }
   }, [isAuthenticated, isHydrated, router]);
 

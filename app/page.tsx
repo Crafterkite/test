@@ -11,7 +11,7 @@ export default function RootPage() {
 
   useEffect(() => {
     if (!isHydrated) return;
-    router.replace('/dashboard');
+    router.replace('/');
   }, [isHydrated, router]);
 
   // Show a minimal loading state while hydrating

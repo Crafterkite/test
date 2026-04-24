@@ -26,7 +26,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+  { label: 'Overview', href: '/', icon: LayoutDashboard },
   { label: 'Requests', href: '/requests', icon: FileText },
   { label: 'Brand', href: '/brand', icon: Palette },
   { label: 'Team', href: '/team', icon: Users },
@@ -136,7 +136,7 @@ export function DashboardSidebar() {
             const Icon = item.icon;
             const isActive =
               pathname === item.href ||
-              (item.href !== '/dashboard' && pathname.startsWith(item.href));
+              (item.href !== '/' && pathname.startsWith(item.href));
 
             return (
               <Link

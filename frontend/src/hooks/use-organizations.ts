@@ -46,7 +46,7 @@ export function useOrganization(id: string) {
 }
 
 /**
- * Creates a new organization. On success, adds to store and redirects to /dashboard.
+ * Creates a new organization. On success, adds to store and redirects to /(dashboard).
  */
 export function useCreateOrganization() {
   const router = useRouter();
@@ -62,7 +62,7 @@ export function useCreateOrganization() {
       addOrg(org);
       setCurrentOrg(org);
       queryClient.invalidateQueries({ queryKey: orgKeys.lists() });
-      router.push('/dashboard');
+      router.push('/');
     },
   });
 }

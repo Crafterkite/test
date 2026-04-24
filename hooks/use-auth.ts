@@ -44,7 +44,7 @@ export function useMe() {
 }
 
 /**
- * Login mutation. On success, stores auth state and redirects to /dashboard.
+ * Login mutation. On success, stores auth state and redirects to /(dashboard).
  */
 export function useLogin() {
   const router = useRouter();
@@ -63,7 +63,7 @@ export function useLogin() {
       queryClient.invalidateQueries({ queryKey: authKeys.me() });
 
       // Redirect to dashboard
-      router.push('/dashboard');
+      router.push('/');
     },
   });
 }

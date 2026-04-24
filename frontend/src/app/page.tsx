@@ -13,7 +13,7 @@ export default function RootPage() {
     if (!isHydrated) return;
 
     if (isAuthenticated) {
-      router.replace('/dashboard');
+      router.replace('/');
     } else {
       router.replace('/login');
     }
