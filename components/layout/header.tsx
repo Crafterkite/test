@@ -20,6 +20,10 @@ import {
   Key,
   FileText,
   Shield,
+  HelpCircle,
+  Keyboard,
+  Moon,
+  BellRing,
 } from 'lucide-react';
 
 import { ThemeToggle } from '@/components/ui/theme-toggle';
