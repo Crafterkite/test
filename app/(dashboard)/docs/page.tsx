@@ -56,7 +56,7 @@ type ViewMode = 'grid' | 'list';
 
 function TemplateCard({ tmpl }: { tmpl: typeof TEMPLATES[number] }) {
   return (
-    <Link href={`/dashboard/${tmpl.type}/editor/new`} className="group flex-shrink-0 w-56">
+    <Link href={`/${tmpl.type}/editor/new`} className="group flex-shrink-0 w-56">
       <div className="rounded-xl border border-border bg-card overflow-hidden hover:shadow-lg hover:border-border/60 hover:shadow-black/20 transition-all duration-200">
         {/* Gradient preview */}
         <div className={cn('h-28 bg-gradient-to-br relative overflow-hidden', tmpl.gradient)}>
@@ -92,7 +92,7 @@ function RecentDocCard({ doc, onStar }: { doc: typeof RECENT[number]; onStar: ()
 
   return (
     <div className="group relative rounded-xl border border-border bg-card hover:border-border/70 hover:shadow-md hover:shadow-black/10 transition-all duration-200 overflow-hidden cursor-pointer">
-      <Link href={`/dashboard/docs/editor/${doc.id}`} className="block">
+      <Link href={`/docs/editor/${doc.id}`} className="block">
         {/* Document preview */}
         <div className="h-36 bg-muted/30 border-b border-border px-4 pt-4 pb-2 flex flex-col gap-1 relative overflow-hidden">
           {/* Doc icon watermark */}
@@ -172,7 +172,7 @@ function RecentDocRow({ doc, onStar }: { doc: typeof RECENT[number]; onStar: () 
   const typeInfo = DOC_TYPES.find(t => t.type === doc.type) ?? DOC_TYPES[0];
   const Icon = typeInfo.icon;
   return (
-    <Link href={`/dashboard/docs/editor/${doc.id}`}
+    <Link href={`/docs/editor/${doc.id}`}
       className="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-accent/40 transition-colors group"
     >
       <div className={cn('flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg', typeInfo.bg)}>
@@ -228,8 +228,7 @@ export default function DocsPage() {
             Central hub for documents, templates, and knowledge
           </p>
         </div>
-        <Link
-          href="/dashboard/docs/editor/new"
+          <Link href="/docs/editor/new"
           className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-[13.5px] font-semibold text-white hover:bg-primary/90 transition-colors shadow-sm flex-shrink-0"
         >
           <Plus className="h-4 w-4" /> New Document
@@ -241,7 +240,9 @@ export default function DocsPage() {
         {DOC_TYPES.map(t => {
           const Icon = t.icon;
           return (
-            <Link key={t.type + t.label} href={`/dashboard/${t.type}/editor/new`}
+            <Link
+  key={t.type + t.label}
+  href={`/${t.type}/editor/new`}
               className="group flex flex-col items-center gap-2 rounded-xl border border-border bg-card px-3 py-4 hover:border-primary/40 hover:bg-primary/5 transition-all"
             >
               <div className={cn('flex h-9 w-9 items-center justify-center rounded-xl transition-transform group-hover:scale-110', t.bg)}>
@@ -272,7 +273,7 @@ export default function DocsPage() {
             >
               <ChevronRight className="h-3.5 w-3.5" />
             </button>
-            <Link href="/dashboard/templates"
+            <Link href="/templates"
               className="flex items-center gap-1 text-[12.5px] font-medium text-primary hover:text-primary/80 transition-colors"
             >
               View all <ChevronRight className="h-3 w-3" />
@@ -283,7 +284,7 @@ export default function DocsPage() {
         {/* Scrollable strip */}
         <div ref={scrollRef} className="flex gap-3 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {/* Blank card */}
-          <Link href="/dashboard/docs/editor/new" className="flex-shrink-0 w-56 group">
+         <Link href="/docs/editor/new"
             <div className="h-[192px] rounded-xl border-2 border-dashed border-border bg-card hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-dashed border-muted-foreground/30 text-muted-foreground group-hover:border-primary/50 group-hover:text-primary transition-colors">
                 <Plus className="h-5 w-5" />
@@ -370,7 +371,7 @@ export default function DocsPage() {
                 <RecentDocCard key={doc.id} doc={doc} onStar={() => toggleStar(doc.id)} />
               ))}
               {/* New doc shortcut */}
-              <Link href="/dashboard/docs/editor/new"
+              <Link href="/docs/editor/new"
                 className="group flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-card/30 hover:border-primary/40 hover:bg-primary/5 transition-all min-h-[168px]"
               >
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-dashed border-muted-foreground/30 text-muted-foreground group-hover:border-primary/50 group-hover:text-primary transition-colors">
