@@ -197,45 +197,7 @@ export default function OverviewPage() {
       {/* ── Main grid ── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        {/* Recent Activity */}
-        <div className="lg:col-span-7">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Activity className="h-3.5 w-3.5 text-muted-foreground" />
-              <h2 className="text-[15px] font-semibold">Recent Activity</h2>
-            </div>
-            <button className="text-xs text-primary hover:text-primary/80 transition-colors flex items-center gap-1">
-              View all <ChevronRight className="h-3 w-3" />
-            </button>
-          </div>
-
-          <div className="space-y-2">
-            {recentActivity.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={i}
-                  className="flex items-center gap-4 rounded-xl border border-border bg-card px-4 py-3.5 hover:bg-accent/30 transition-colors"
-                >
-                  <div className={cn('flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg', item.iconBg)}>
-                    <Icon className={cn('h-3.5 w-3.5', item.iconColor)} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[13.5px] font-medium text-foreground truncate">{item.title}</p>
-                    <p className="text-[12px] text-muted-foreground mt-0.5 truncate">{item.subtitle}</p>
-                  </div>
-                  <div className="flex-shrink-0 text-right">
-                    <span className={cn('text-[11px] font-medium px-2.5 py-1 rounded-full', item.statusColor)}>
-                      {item.status}
-                    </span>
-                    <p className="text-[11px] text-muted-foreground mt-1.5">{item.time}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
+       
         {/* Right column */}
         <div className="lg:col-span-5 space-y-5">
 
