@@ -3,7 +3,8 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { DashboardSidebar } from '@/components/layout/sidebar';
-import { DashboardHeader } from '@/components/layout/header';
+import { TopHeader } from '@/components/layout/top-header';
+import { PageHeader } from '@/components/layout/page-header';
 import { AuthGuard } from '@/components/auth/auth-guard';
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
